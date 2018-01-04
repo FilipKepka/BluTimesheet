@@ -1,4 +1,5 @@
 ﻿using BluTimesheet.Authorization;
+using BluTimesheet.Migrations;
 using BluTimesheet.Models.DbModels;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
@@ -9,6 +10,10 @@ namespace BluTimesheet.Context
     {
         public TimesheetDbContext() : base("BluTimesheet")
         {
+            // Database.SetInitializer<TimesheetDbContext>(new MigrateDatabaseToLatestVersion<TimesheetDbContext, Configuration>());
+            // Database.SetInitializer<TimesheetDbContext>(new CreateDatabaseIfNotExists<TimesheetDbContext>());
+            if (!(Database.Exists()))
+                Database.SetInitializer<TimesheetDbContext>(new MigrateDatabaseToLatestVersion<TimesheetDbContext, Configuration>());
         }
         public DbSet<Activity> Activity { get; set; }
         public DbSet<ActivityType> ActivityType { get; set; }
