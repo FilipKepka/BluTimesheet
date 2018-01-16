@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService} from '../auth/auth.service';
+import { Router } from '@angular/router';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  title: string = "Hello World";
+  constructor( private authService: AuthService, private router: Router) {
+  }
+  title = 'BluTimesheet';
 
-  constructor() { }
 
+  onLogout() {
+    this.authService.logout();
+  }
   ngOnInit() {
   }
 

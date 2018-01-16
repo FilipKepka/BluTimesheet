@@ -1,0 +1,36 @@
+
+
+  <table>
+    <tr *ngFor="let project of projecteManager">
+      <td>{{project.id}}</td>	 <td>{{project.name}}</td> <td>{{project.projectnumber}}</td>
+    </tr>
+
+  </table>
+
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let element" > {{element.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="projectType">
+        <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.projectType.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="projectnumber">
+        <mat-header-cell *matHeaderCellDef> Number </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.projectnumber}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>

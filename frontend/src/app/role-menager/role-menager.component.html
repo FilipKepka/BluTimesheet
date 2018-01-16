@@ -1,0 +1,34 @@
+
+
+<div class="example-container mat-elevation-z8">
+<mat-table #table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.roleName}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+</div>
+
+<!--<table>
+  <tr *ngFor="let role of roleMenager">
+    <td>{{role.roleName}}</td>	<td>{{role.id}}</td>
+  </tr>
+
+</table>
+
+
+<mat-list *ngFor="let role of roleMenager">
+  <mat-list-item> {{role.roleName}} </mat-list-item>
+  <mat-list-item> {{role.roleName}} </mat-list-item>
+  <mat-list-item> {{role.roleName}} </mat-list-item>
+</mat-list>
+-->

@@ -47,6 +47,8 @@ namespace BluTimesheet.Repositories
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
+            Save();
+            
         }
         public T Update(T obj)
         {

@@ -1,0 +1,45 @@
+<div class="container-flex">
+  <div>
+    <div *ngIf="authService.isAuthenticated()" >
+      <form class="newActivity" >
+        <label>Begining :
+          <input type="date" class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
+        </label>
+        <label>End :
+          <input type="datetime-local" class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
+        </label>
+        <label>Description :
+          <input class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
+        </label>
+        <label>Activity type :
+          <select name="example" class="newActivityButton">
+            <option value="A">A</option>
+            <option value="B">A</option>
+            <option value="-">Other</option>
+          </select>
+        </label>
+        <label>Project role :
+          <select name="example" class="newActivityButton">
+            <option value="A">A</option>
+            <option value="B">A</option>
+            <option value="-">Other</option>
+          </select>
+        </label>
+        <label>Project :
+          <select name="example" class="newActivityButton">
+            <option value="A">A</option>
+            <option value="B">A</option>
+            <option value="-">Other</option>
+          </select>
+        </label>
+        <label>Approved by menager :
+           <input type="checkbox"  name="112" ngModel>
+        </label>
+        <label>User :
+          <input class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
+        </label>
+        <button class="btn btn-primary" >Add</button>
+    </form>
+    </div>
+  </div>
+</div>

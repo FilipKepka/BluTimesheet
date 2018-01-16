@@ -1,0 +1,16 @@
+
+
+<div class="container">
+  <div class="container" *ngIf="!authService.isAuthenticated()">
+    <form class="example-form" (ngSubmit)="onSignIn(f)" #f="ngForm">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="E-mail" value="test@test.com" name="login" ngModel>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Password" value="test@test.com" name="password" ngModel>
+      </mat-form-field>
+      <button mat-raised-button type="submit" [disabled]="!f.valid">SignIn</button>
+    </form>
+  </div>
+
+</div>

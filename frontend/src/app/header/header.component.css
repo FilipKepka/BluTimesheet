@@ -1,0 +1,29 @@
+.title {
+  color: black;
+}
+.bn-spacer {
+  flex: 1 1 auto;
+}
+.lol {
+  font-weight: bold;
+  font-size: 101%;
+  color: #FFD700;
+}
+
+.div-logout
+{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+
+.singInForm {
+  display: flex;
+  flex-direction: column;
+  color: darkblue;
+  min-width: 300px;
+  max-width: 500px;
+  width: 50%;
+
+}

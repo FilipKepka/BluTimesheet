@@ -128,7 +128,7 @@ namespace BluTimesheet.Controllers
             var activity = activityService.Get(id);
             bool isAuthor = activity.UserId == User.Identity.GetUserId();
 
-            if (activity != null && isAuthor)
+            if (activity != null && isAuthor) // || admin
             {
                 activityService.Remove(id);
                 return Ok();
