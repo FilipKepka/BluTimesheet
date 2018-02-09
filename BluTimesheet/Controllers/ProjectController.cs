@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BluTimesheet.Controllers
 {
-    [Authorize(Roles = Startup.roleAdmin)]
+    //[Authorize(Roles = Startup.roleAdmin)]
     public class ProjectController : ApiController
     {
         private IProjectService projectService;
@@ -19,8 +19,8 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PostProject(Project project)
         {
-            projectService.Add(project);
-            return Ok();
+            var returnData = projectService.Add(project);
+            return Ok(returnData);
         }
 
         public IEnumerable<Project> GetProjects()
@@ -50,7 +50,7 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PutProject(Project project)
         {
-            var projectFromDb = projectService.Get(project.Id);
+            var projectFromDb = projectService.Get(project.ProjectId);
             if (projectFromDb != null)
             {
                 projectService.Update(projectFromDb);

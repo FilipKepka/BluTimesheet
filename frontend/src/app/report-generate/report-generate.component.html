@@ -1,5 +1,46 @@
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource" matSort>
 
-<p>
-  report-generate works!
-</p>
+    <!-- Data Column -->
+    <ng-container matColumnDef="Data">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.begining}} </mat-cell>
+    </ng-container>
+    <!-- Hours Column -->
+    <ng-container matColumnDef="Hours">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Hours </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.howManyHours}} </mat-cell>
+    </ng-container>
 
+    <!-- ActivityType Column -->
+    <ng-container matColumnDef="ActivityType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Activity type </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.activityType.name}} </mat-cell>
+    </ng-container>
+
+    <!-- Project Column -->
+    <ng-container matColumnDef="Project">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Project </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.project.name}} </mat-cell>
+    </ng-container>
+
+    <!-- ProjectRole Column -->
+    <ng-container matColumnDef="ProjectRole">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.currentProjectRoleType.roleName }} </mat-cell>
+    </ng-container>
+
+    <!-- ProjectRole Column -->
+    <ng-container matColumnDef="ApprovedByManager">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Approved </mat-header-cell>
+      <mat-cell *matCellDef="let element"> <mat-checkbox  [disabled]="true" [checked]="element.approvedByManager"  ></mat-checkbox> </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [length]="100"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 25, 100]">
+  </mat-paginator>
+</div>

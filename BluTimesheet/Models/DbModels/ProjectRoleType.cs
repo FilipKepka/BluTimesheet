@@ -12,13 +12,12 @@ namespace BluTimesheet.Models.DbModels
        // public ProjectRoleType()
        // {
        //     this.Activity = new HashSet<Activity>();
-      //  }
-        [Key]
-        public int Id { get; set; }
-        [Required]
+      //z  }
+       [Key]
+        public int RoleId { get; set; }
         public string RoleName { get; set; }
 
-
+        public ICollection<Activity> Activityes { get; set; }
         //
       //  public virtual ICollection<Activity> Activity { get; set; }
     }

@@ -1,45 +1,46 @@
-<div class="container-flex">
+<div class="container-flex" style="justify-items: center">
   <div>
-    <div *ngIf="authService.isAuthenticated()" >
-      <form class="newActivity" >
-        <label>Begining :
-          <input type="date" class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
-        </label>
-        <label>End :
-          <input type="datetime-local" class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
-        </label>
-        <label>Description :
-          <input class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
-        </label>
-        <label>Activity type :
-          <select name="example" class="newActivityButton">
-            <option value="A">A</option>
-            <option value="B">A</option>
-            <option value="-">Other</option>
-          </select>
-        </label>
-        <label>Project role :
-          <select name="example" class="newActivityButton">
-            <option value="A">A</option>
-            <option value="B">A</option>
-            <option value="-">Other</option>
-          </select>
-        </label>
-        <label>Project :
-          <select name="example" class="newActivityButton">
-            <option value="A">A</option>
-            <option value="B">A</option>
-            <option value="-">Other</option>
-          </select>
-        </label>
-        <label>Approved by menager :
-           <input type="checkbox"  name="112" ngModel>
-        </label>
-        <label>User :
-          <input class="newActivityButton" matInput placeholder="Login"  name="112" ngModel>
-        </label>
-        <button class="btn btn-primary" >Add</button>
+    <form (ngSubmit)="sendNewActivity(f)" #f="ngForm"  fxLayout="column">
+      <mat-form-field class="container-new-activity">
+        <input matInput [matDatepicker]="beginingPicker" placeholder="Begining" name="begining" ngModel  >
+        <mat-datepicker-toggle matSuffix [for]="beginingPicker"></mat-datepicker-toggle>
+        <mat-datepicker #beginingPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="How many hours" name="howManyHours" ngModel>
+          <mat-option *ngFor="let value of Hours" [value]="value">
+            {{ value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="container-new-activity">
+        <textarea disabled="false" matInput #addComments placeholder="Description" name="description"
+                  ngModel></textarea>
+      </mat-form-field>
+      <mat-form-field class="container-new-activity" >
+      <mat-select  placeholder="Activity type" name="activityType" ngModel required>
+        <mat-option *ngFor="let value of ActivityTypes" [value]="value.activityId" >
+          {{ value.name }}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-form-field class="container-new-activity">
+      <mat-select placeholder="Project name" name="projects" ngModel>
+        <mat-option *ngFor="let value of projects" [value]="value.projectId">
+          {{ value.name }}
+        </mat-option>
+      </mat-select>
+        </mat-form-field>
+      <mat-form-field class="container-new-activity">
+      <mat-select placeholder="Current project role type" name="currentProjectRoleType" ngModel >
+        <mat-option *ngFor="let value of projectRole" [value]="value.roleId">
+          {{ value.roleName }}
+        </mat-option>
+      </mat-select>
+      </mat-form-field>
+      <mat-checkbox [disabled]="true">Approved by manager</mat-checkbox>
+      <button mat-raised-button type="submit" (click)="sendNewActivity(f)" type="button">Send</button>
     </form>
-    </div>
   </div>
 </div>
+

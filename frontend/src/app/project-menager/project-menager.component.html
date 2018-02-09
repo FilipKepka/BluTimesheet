@@ -1,18 +1,40 @@
 
-
-  <table>
-    <tr *ngFor="let project of projecteManager">
-      <td>{{project.id}}</td>	 <td>{{project.name}}</td> <td>{{project.projectnumber}}</td>
-    </tr>
-
-  </table>
+ <div>
+  <div>
+    <form (ngSubmit)="addNewProject(f)" #f="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="Add new project name" name="newProject" ngModel>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Project type" name="projectType" ngModel>
+          <mat-option *ngFor="let value of selectValues"  [value]="value.projectTypeId">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Number" name="projectNumber" ngModel>
+      </mat-form-field>
+      <button mat-raised-button type="submit" [disabled]="!f.valid">Add</button>
+    </form>
+  </div>
 
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
 
+      <ng-container matColumnDef="settings">
+        <mat-header-cell *matHeaderCellDef> Settings </mat-header-cell>
+        <mat-cell *matCellDef="let element" >
+          <button class="mat-column-settings-button"  mat-button color="primary">Edit<mat-icon>edit</mat-icon></button>
+          <button class="mat-column-settings-button" (click)="removeProject(element.projectId)" mat-button color="primary">Remove
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
       <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-        <mat-cell *matCellDef="let element" > {{element.id}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.projectId}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -34,3 +56,4 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
   </div>
+ </div>

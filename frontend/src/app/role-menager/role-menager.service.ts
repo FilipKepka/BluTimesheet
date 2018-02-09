@@ -11,6 +11,7 @@ export class RoleMenagerService {
   public headers;
   public roleMenager$: Observable<RoleMenagerModel[]>;
   private _roleMenager: BehaviorSubject<RoleMenagerModel[]>;
+  private baseUrl: string;
   private dataStore: {
     roleMenager: RoleMenagerModel[];
   };
@@ -20,15 +21,32 @@ export class RoleMenagerService {
     this.dataStore = {roleMenager: []};
     this._roleMenager = <BehaviorSubject<RoleMenagerModel[]>>new BehaviorSubject([]);
     this.roleMenager$ = this._roleMenager.asObservable();
+    this.baseUrl = 'http://localhost:51107/api';
   }
 
 
 
   loadAllRole() {
-    this.http.get('http://localhost:51107/api/ProjectRoleType', {headers: this.headers}).subscribe((data: RoleMenagerModel[]) => {
+    this.http.get(`${this.baseUrl}/ProjectRoleType`, {headers: this.headers}).subscribe((data: RoleMenagerModel[]) => {
       this.dataStore.roleMenager = data;
       this._roleMenager.next(Object.assign({}, this.dataStore).roleMenager);
     }, error => console.log('Load terminals error: ', error));
   }
+
+  addRole(data) {
+    return this.http.post(`${this.baseUrl}/ProjectRoleType/`, JSON.stringify(data), {headers: this.headers});
+  }
+
+  deleteColumn(roleId: number) {
+     this.http.delete(`${this.baseUrl}/ProjectRoleType/${roleId}`, {headers: this.headers})
+       .subscribe(response => {
+         this.dataStore.roleMenager.forEach((t, i) => {
+           if (t.roleId === roleId) {
+             this.dataStore.roleMenager.splice(i, 1);
+           }
+         });
+         this._roleMenager.next(Object.assign({}, this.dataStore).roleMenager);
+       }, error => console.log('Could not delete todo.'));
+     }
 
 }

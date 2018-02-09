@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BluTimesheet.Controllers
 {
-    [Authorize(Roles = Startup.roleAdmin)]
+    //[Authorize(Roles = Startup.roleAdmin)]
     public class ActivityTypeController : ApiController
     {
         private IActivityTypeService activityTypeService;
@@ -47,7 +47,7 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PutActivityType(ActivityType activityType)
         {
-            var activityTypeFromDb = activityTypeService.Get(activityType.Id);
+            var activityTypeFromDb = activityTypeService.Get(activityType.ActivityId);
             if (activityTypeFromDb != null)
             {
                 activityTypeService.Update(activityType);

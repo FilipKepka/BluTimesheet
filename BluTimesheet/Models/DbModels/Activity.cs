@@ -9,26 +9,29 @@ namespace BluTimesheet.Models.DbModels
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+       
         public DateTime? Begining { get; set; }
 
-        public DateTime? End { get; set; }
+       // public DateTime? End { get; set; }
 
         public string description { get; set; }
 
-        [Required]
-        public ActivityType ActivityType { get; set; }//
+        public int HowManyHours { get; set; }
 
-        public ProjectRoleType ProjectRoleType { get; set; }//
+        
+        public virtual ActivityType ActivityType { get; set; }
 
-        public Project Project { get; set; }//virtual
+        public virtual Project Project { get; set; }
 
         public bool ApprovedByManager { get; set; }
 
         [Required]
         public string UserId { get; set; }
-        
 
+        public virtual ProjectRoleType CurrentProjectRoleType { get; set; }
+
+
+ 
 
 
     }

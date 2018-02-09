@@ -236,15 +236,12 @@
     <Compile Include="Controllers\ProjectRoleTypeController.cs" />
     <Compile Include="Controllers\ProjectTypeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Migrations\201712281403433_migration.cs" />
-    <Compile Include="Migrations\201712281403433_migration.Designer.cs">
-      <DependentUpon>201712281403433_migration.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AuthenticationBindingModels\ChangePasswordModel.cs" />
     <Compile Include="Models\AuthenticationBindingModels\LoginModel.cs" />
     <Compile Include="Models\AuthenticationBindingModels\RegisterModel.cs" />
     <Compile Include="Models\AuthenticationBindingModels\SetPasswordModel.cs" />
+    <Compile Include="Models\AuthenticationBindingModels\UserInfoViewModel.cs" />
     <Compile Include="Models\DbModels\ProjectRoleType.cs" />
     <Compile Include="Models\DbModels\ProjectType.cs" />
     <Compile Include="AuthenticationConfig\ApplicationOAuthProvider.cs" />
@@ -253,11 +250,13 @@
     <Compile Include="Repositories\ProjectRoleTypeRepository.cs" />
     <Compile Include="Repositories\ProjectTypeRepository.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
+    <Compile Include="Repositories\UserInfoRepository.cs" />
     <Compile Include="Services\implementations\ActivityTypeService.cs" />
     <Compile Include="Services\implementations\ActivityService.cs" />
     <Compile Include="Services\implementations\ProjectRoleTypeService.cs" />
     <Compile Include="Services\implementations\ProjectTypeService.cs" />
     <Compile Include="Services\implementations\ReportService.cs" />
+    <Compile Include="Services\implementations\UserInfoService.cs" />
     <Compile Include="Services\interfaces\IActivityTypeService.cs" />
     <Compile Include="Services\interfaces\IActivityService.cs" />
     <Compile Include="Services\interfaces\IProjectRoleTypeService.cs" />
@@ -275,17 +274,14 @@
     <Compile Include="Repositories\ActivityTypeRepository.cs" />
     <Compile Include="Repositories\ProjectRepository.cs" />
     <Compile Include="Services\implementations\ProjectService.cs" />
+    <Compile Include="Services\interfaces\IUserInfoService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="FilterAttributes\ValidateModelAttribute .cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Project\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201712281403433_migration.resx">
-      <DependentUpon>201712281403433_migration.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Views\UserInfo\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

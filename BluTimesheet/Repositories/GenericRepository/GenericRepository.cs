@@ -38,6 +38,11 @@ namespace BluTimesheet.Repositories
         public void Remove(object id)
         {
             T entityToDelete = dbSet.Find(id);
+
+          //  dbSet.Remove(entityToDelete);
+         //   context.SaveChanges();
+
+
             Delete(entityToDelete);
         }
         private void Delete(T entityToDelete)
@@ -47,8 +52,7 @@ namespace BluTimesheet.Repositories
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
-            Save();
-            
+            Save();           
         }
         public T Update(T obj)
         {

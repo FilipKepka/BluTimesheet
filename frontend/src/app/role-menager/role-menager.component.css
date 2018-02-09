@@ -15,3 +15,23 @@
   overflow: auto;
   max-height: 500px;
 }
+
+.icon-button{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+/*  border: none;*/
+  cursor:pointer;
+  overflow: hidden;
+}
+
+.settingsButtonFlex{
+  display: flex;
+  justify-content: space-between ;
+}
+
+.mat-column-settings-button {
+  opacity: 1.0;
+}
+.mat-column-settings-button:hover {
+  opacity: 1.0;
+}

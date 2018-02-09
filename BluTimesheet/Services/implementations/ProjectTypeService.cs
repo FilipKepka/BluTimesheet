@@ -3,6 +3,7 @@ using BluTimesheet.Services.interfaces;
 using System.Collections.Generic;
 using BluTimesheet.Models.DbModels;
 using System.Threading.Tasks;
+using BluTimesheet.Context;
 
 namespace BluTimesheet.Services.implementations
 {
@@ -10,9 +11,9 @@ namespace BluTimesheet.Services.implementations
     {
         private readonly ProjectTypeRepository projectTypeRepository;
 
-        public ProjectTypeService(ProjectTypeRepository projectTypeRepository)
+        public ProjectTypeService(TimesheetDbContext context)
         {
-            this.projectTypeRepository = projectTypeRepository;
+            this.projectTypeRepository = new ProjectTypeRepository(context);
         }
 
         public void Add(ProjectType projectType)

@@ -1,21 +1,38 @@
+<div>
+  <div>
+    <form (ngSubmit)="addNewRole(f)" #f="ngForm">
+      <mat-form-field>
+        <input matInput placeholder="Add new role" name="addNewRoleManager" ngModel>
+      </mat-form-field>
+      <button mat-raised-button type="submit" [disabled]="!f.valid">Add</button>
+    </form>
+  </div>
 
-
-<div class="example-container mat-elevation-z8">
-<mat-table #table [dataSource]="dataSource">
-
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.roleName}} </mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table>
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="settings">
+        <mat-header-cell *matHeaderCellDef> Settings</mat-header-cell>
+        <mat-cell clas="settingsButtonFlex" *matCellDef="let element">
+          <button class="mat-column-settings-button" mat-button color="primary">Edit
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="mat-column-settings-button" (click)="removeRole(element.roleId)" mat-button color="primary">Remove
+            <mat-icon>clear</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
+        <mat-cell *matCellDef="let i = index;">{{i+1}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Role name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.roleName}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
 </div>
 
 <!--<table>

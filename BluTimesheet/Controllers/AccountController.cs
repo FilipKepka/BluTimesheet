@@ -1,9 +1,14 @@
 ﻿
 using BluTimesheet.Authorization;
+using BluTimesheet.Context;
 using BluTimesheet.Models.AuthenticationBidingModels;
+using BluTimesheet.Models.AuthenticationBindingModels;
+using BluTimesheet.Services.interfaces;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.Cookies;
+using System.Data.Entity;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -21,12 +26,12 @@ namespace BluTimesheet.Controllers
 
         public AccountController()
         {
+
             userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             signInManager = HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
             roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
         }
-        
-        
+
         // POST api/Account/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()
@@ -77,6 +82,24 @@ namespace BluTimesheet.Controllers
             var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, shouldLockout: false);
 
             return Ok(result);
-        }        
+        }   
+        
+
+        [Route("UserInfo")]
+        public UserInfoViewModel GetUserInfo()
+        {
+            var userId = User.Identity.GetUserName();
+            var userInfo = userManager.FindByEmail(userId);
+            
+            return new UserInfoViewModel
+            {
+                
+                userId = User.Identity.GetUserId(),
+                IsAdmin = true,
+                Name = userInfo.FirstName,
+                Surname  = userInfo.LastName,
+                
+            };
+        }
     }
 }

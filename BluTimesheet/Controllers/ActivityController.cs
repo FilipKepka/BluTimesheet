@@ -30,7 +30,7 @@ namespace BluTimesheet.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         public IEnumerable<Activity> GetActivities()
         {
             return activityService.GetAll();
@@ -69,14 +69,14 @@ namespace BluTimesheet.Controllers
             
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/project/{id}/activities")]
         public IEnumerable<Activity> GetActivitiesByProject(int id)
         {
             return activityService.GetActivitesByProject(id);
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/activitytype/{id}/activities")]
         public IEnumerable<Activity> GetActivitiesByActivityType(int id)
         {
@@ -163,35 +163,35 @@ namespace BluTimesheet.Controllers
             }
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/activitiesbyproject/{TimeFrom}/{TimeTo}/{Id}")]
         public IHttpActionResult GetActivitesByProjectPerTime(DateTime TimeFrom, DateTime TimeTo, int id)
         {
            return Ok(activityService.GetActivitesByProjectPerTime(TimeFrom, TimeTo, id));
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/activitiesbyuser/{TimeFrom}/{TimeTo}/{Id}")]
         public IHttpActionResult GetActivitesByUserPerTime(DateTime TimeFrom, DateTime TimeTo, string id)
         {
             return Ok(activityService.GetActivitesByUserPerTime(TimeFrom, TimeTo, id));
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/activitiesbyactivitytype/{TimeFrom}/{TimeTo}/{Id}")]
         public IHttpActionResult GetActivitesByActivityTypePerTime(DateTime TimeFrom, DateTime TimeTo, int id)
         {
             return Ok(activityService.GetActivitesByActivityTypePerTime(TimeFrom, TimeTo, id));
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/activitiesbyapprovedbymanager/{TimeFrom}/{TimeTo}/{Id}")]
         public IHttpActionResult GetActivitesByApprovedByManagerPerTime(DateTime TimeFrom, DateTime TimeTo, bool id)
         {
             return Ok(activityService.GetActivitesByApprovedByManagerPerTime(TimeFrom, TimeTo, id));
         }
 
-        [Authorize(Roles = Startup.roleAdmin)]
+        //[Authorize(Roles = Startup.roleAdmin)]
         [Route("api/activitesbyprojectrole/{TimeFrom}/{TimeTo}/{Id}")]
         public IHttpActionResult GetActivitesByProjectRoleTypePerTime(DateTime TimeFrom, DateTime TimeTo, int id)
         {

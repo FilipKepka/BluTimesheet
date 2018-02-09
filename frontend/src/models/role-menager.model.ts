@@ -1,10 +1,10 @@
 export class RoleMenagerModel {
-  id: number;
+  roleId: number;
   roleName: string;
 
 
   constructor (roleMenagerData) {
-    this.id = roleMenagerData.id
+    this.roleId = roleMenagerData.id;
     this.roleName = roleMenagerData.roleName;
 
   }

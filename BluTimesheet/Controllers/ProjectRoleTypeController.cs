@@ -1,6 +1,7 @@
 ﻿using BluTimesheet.Models.DbModels;
 using BluTimesheet.Services.interfaces;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -18,8 +19,8 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PostProjectRoleType(ProjectRoleType projectRoleType)
         {
-            projectRoleTypeService.Add(projectRoleType);
-            return Ok();
+            var returnData = projectRoleTypeService.Add(projectRoleType);
+            return Ok(returnData);
         }
 
         [HttpGet]
@@ -43,7 +44,7 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PutProjectRoleType(ProjectRoleType publicRoleType)
         {
-            var publicRoleTypeDb = projectRoleTypeService.Get(publicRoleType.Id);
+            var publicRoleTypeDb = projectRoleTypeService.Get(publicRoleType.RoleId);
             if (publicRoleTypeDb != null)
             {
                 projectRoleTypeService.Update(publicRoleType);

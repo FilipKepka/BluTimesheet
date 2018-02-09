@@ -1,10 +1,10 @@
 export class ProjectTypeModel {
-  id: number;
+  projectTypeId: number;
   Name: string;
 
 
   constructor (projectTypes) {
-    this.id = projectTypes.id;
+    this.projectTypeId = projectTypes.projectTypeId;
     this.Name = projectTypes.Name;
 
   }

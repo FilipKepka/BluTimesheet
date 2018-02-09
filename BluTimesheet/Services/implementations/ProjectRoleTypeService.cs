@@ -15,9 +15,9 @@ namespace BluTimesheet.Services.implementations
             this.projectRoleTypeRepository = projectRoleTypeRepository;
         }
 
-        public void Add(ProjectRoleType projectRoleType)
+        public ProjectRoleType Add(ProjectRoleType projectRoleType)
         {
-            projectRoleTypeRepository.Add(projectRoleType);
+            return projectRoleTypeRepository.Add(projectRoleType);
         }
 
         public  ProjectRoleType Get(int id)

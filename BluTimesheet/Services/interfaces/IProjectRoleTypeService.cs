@@ -6,7 +6,7 @@ namespace BluTimesheet.Services.interfaces
 {
     public interface IProjectRoleTypeService
     {
-        void Add(ProjectRoleType projectRoleType);
+        ProjectRoleType Add(ProjectRoleType projectRoleType);
         void Remove(int id);
         ProjectRoleType Get(int id);
         void Update(ProjectRoleType projectRoleType);

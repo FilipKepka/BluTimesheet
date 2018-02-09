@@ -14,8 +14,8 @@ namespace BluTimesheet.Models.DbModels
             //this.Activity = new HashSet<Activity>();
       //  }
         [Key]
-        public int Id { get; set; }
-        [Required]
+        public int ActivityId { get; set; }
+
         public string Name { get; set; }
 
     }

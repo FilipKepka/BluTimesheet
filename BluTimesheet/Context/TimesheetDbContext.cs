@@ -20,10 +20,17 @@ namespace BluTimesheet.Context
         public DbSet<Project> Project { get; set; }
         public DbSet<ProjectType> ProjectType { get; set; }
         public DbSet<ProjectRoleType> ProjectRoleType { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         public static TimesheetDbContext Create()
         {
             return new TimesheetDbContext();
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

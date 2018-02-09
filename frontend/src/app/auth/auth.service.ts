@@ -30,13 +30,19 @@ export class AuthService {
     }
     return false;
   }
-
   saveTokentToStorage(token = '') {
     sessionStorage.setItem('token', token);
+    this.http.get(`${this.url}/api/Account/UserInfo`, { headers: this.getAuthorizationHeaders()})
+      .subscribe((res: any) => {
+        sessionStorage.setItem('IsAdmin', String(res.isAdmin));
+        sessionStorage.setItem('UserId', res.userId);
+      });
   }
 
   removeTokenFromStorage() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('IsAdmin');
+    sessionStorage.removeItem('UserId');
   }
 
   getAuthorizationHeaders() {
@@ -44,13 +50,10 @@ export class AuthService {
     let headers = null;
 
     if (token) {
-      console.log(token);
       headers = new HttpHeaders()
         .set('Authorization', `Bearer ${token}`)
         .set('Content-Type', 'application/json')
     }
-    console.log(headers);
-
     return headers;
   }
 
@@ -68,13 +71,13 @@ export class AuthService {
           .set('Content-Type', 'x-www-form-urlencoded')
       })
       .subscribe((res: AuthResponse) => {
-        console.log(res);
         this.saveTokentToStorage(res.access_token);
         this.router.navigateByUrl('/new-activity');
       }, err => {
         this.error = true;
         this.errorMessage = err.error.error_description;
       });
+
   }
 
   logout() {
@@ -82,10 +85,20 @@ export class AuthService {
     this.router.navigateByUrl('/signin');
   }
 
+
+
   isAuthenticated() {
     const token = this.getTokenFromStorage();
     if (token) return true;
     return false;
+  }
+
+  isAdmin() {
+    return sessionStorage.getItem('IsAdmin') == 'true';
+  }
+
+  getUserInfo() {
+    return {UserId: sessionStorage.getItem('UserId')};
   }
 
 

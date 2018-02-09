@@ -17,10 +17,14 @@ import { ProjectMenagerComponent } from './project-menager/project-menager.compo
 import { RoleMenagerComponent } from './role-menager/role-menager.component';
 import { ProjectMenagerService } from './project-menager/project-menager.service';
 import { RoleMenagerService } from './role-menager/role-menager.service';
+import { ProjectTypeService } from './project-menager/project-type/project-type.service';
 
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ProjectTypeComponent } from './project-menager/project-type/project-type.component';
+import { ReportGenerateService } from './report-generate/report-generate.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,8 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
     SigninComponent,
     ProjectMenagerComponent,
     RoleMenagerComponent,
+    ConfirmationDialogComponent,
+    ProjectTypeComponent,
 
   ],
   imports: [
@@ -41,7 +47,8 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
     AppMaterialModule,
     BrowserAnimationsModule
   ],
-  providers: [AuthGuardService, AuthService, NewActivityService, ProjectMenagerService, RoleMenagerService],
-  bootstrap: [AppComponent]
+  providers: [AuthGuardService, AuthService, NewActivityService, ProjectMenagerService, RoleMenagerService, ProjectTypeService, ReportGenerateService],
+  bootstrap: [AppComponent],
+  entryComponents: [ConfirmationDialogComponent]
 })
 export class AppModule { }

@@ -1,13 +1,26 @@
 .container-flex {
   display: flex;
-  flex-direction: column;
+  padding: 24px;
+  justify-content: center;
 }
 .newActivity {
   display: flex;
   flex-direction: column;
+
 }
 .newActivityButton {
   display: flex;
   flex-direction: column;
   min-width: 500px;
+}
+
+
+.container-new-activity{
+  display: flex;
+  flex-direction: column;
+}
+
+.min-width-class{
+  min-width: 100px;
+
 }

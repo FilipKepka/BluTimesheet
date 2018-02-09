@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using BluTimesheet.Context;
 using BluTimesheet.Models.DbModels;
 using BluTimesheet.Repositories;
 using BluTimesheet.Services.interfaces;
@@ -10,14 +12,21 @@ namespace BluTimesheet.Services.implementations
     {
         private readonly ProjectRepository projectRepository;
 
-        public ProjectService(ProjectRepository projectRepository)
+        private readonly ProjectTypeRepository projectTypeRepository;
+
+        public ProjectService(TimesheetDbContext context)
         {
-            this.projectRepository = projectRepository;
+            this.projectRepository = new ProjectRepository(context);
+            this.projectTypeRepository = new ProjectTypeRepository(context);
         }
 
-        public void Add(Project project)
+        public Project Add(Project project)
         {
-            projectRepository.Add(project);
+            var projectsType = projectTypeRepository.GetAll();
+            var exactProjectType = projectsType.First(x => x.ProjectTypeId == project.ProjectType.ProjectTypeId);
+            project.ProjectType = exactProjectType;
+
+           return projectRepository.Add(project);
         }
 
         public Project Get(int id)
@@ -32,7 +41,7 @@ namespace BluTimesheet.Services.implementations
 
         public IEnumerable<Project> GetProjectsByProjectType(int id)
         {
-            return projectRepository.Search(x => x.ProjectType.Id == id);
+            return projectRepository.Search(x => x.ProjectType.ProjectTypeId == id);
         }
 
         public void Remove(int id)

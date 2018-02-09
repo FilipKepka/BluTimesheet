@@ -135,36 +135,40 @@ namespace BluTimesheet.Migrations
             {
                 Begining = DateTime.Now,
                 Project = project1,
-                ProjectRoleType = projectRoleType2,
+                CurrentProjectRoleType = projectRoleType2,
                 ActivityType = activityType1,
-                UserId = userJakub.Id
+                UserId = userJakub.Id,
+                HowManyHours = 8,
             };
-            Activity activity2 = new Activity
-            {
-                Begining = DateTime.Now.AddDays(-1),
-                End = DateTime.Now.AddDays(-1).AddHours(8),
-                Project = project1,
-                ProjectRoleType = projectRoleType2,
-                ActivityType = activityType1,
-                UserId = userJakub.Id
+        Activity activity2 = new Activity
+        {
+            Begining = DateTime.Now.AddDays(-1),
+          //  End = DateTime.Now.AddDays(-1).AddHours(8),
+            Project = project1,
+            CurrentProjectRoleType = projectRoleType2,
+            ActivityType = activityType1,
+            UserId = userJakub.Id,
+            HowManyHours = 8,
             };
             Activity activity3 = new Activity
             {
                 Begining = DateTime.Now.AddDays(-2),
-                End = DateTime.Now.AddDays(-2).AddHours(8),
+               // End = DateTime.Now.AddDays(-2).AddHours(8),
                 Project = project1,
-                ProjectRoleType = projectRoleType1,
+                CurrentProjectRoleType = projectRoleType1,
                 ActivityType = activityType1,
-                UserId = userJakub.Id
+                UserId = userJakub.Id,
+                HowManyHours = 7,
             };
             Activity activity4 = new Activity
             {
                 Begining = DateTime.Now.AddDays(-3),
-                End = DateTime.Now.AddDays(-3).AddHours(8),
-                ProjectRoleType = projectRoleType4,
+                //End = DateTime.Now.AddDays(-3).AddHours(8),
+                CurrentProjectRoleType = projectRoleType4,
                 Project = project1,
                 ActivityType = activityType1,
-                UserId = userJakub.Id
+                UserId = userJakub.Id,
+                HowManyHours = 8,
             };
 
             context.ProjectType.AddOrUpdate(x => x.Name, projectBillable, projectNonBillable);
@@ -174,6 +178,7 @@ namespace BluTimesheet.Migrations
             context.ProjectRoleType.AddOrUpdate(x => x.RoleName, projectRoleType1, projectRoleType2,
                 projectRoleType3, projectRoleType4);
             context.Activity.AddOrUpdate(x => x.Id, activity1, activity2, activity3, activity4);
+           // context.Users.AddOrUpdate(x => x.Id, userJakub, userKrzysztof, userPiotr, userSlawomir);
             context.SaveChanges();
         }
     }
