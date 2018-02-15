@@ -19,11 +19,6 @@ namespace BluTimesheet.Services.implementations
         }
 
 
-
-
-
-
-
         public IEnumerable<Activity> GetActivitesByUserPerMonth(int ReportFrom, int ReportTo, int userId)
         {
             throw new NotImplementedException();

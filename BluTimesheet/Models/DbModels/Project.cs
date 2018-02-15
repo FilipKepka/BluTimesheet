@@ -21,6 +21,8 @@ namespace BluTimesheet.Models.DbModels
 
         public string Projectnumber { get; set; }
 
+        public string Client { get; set; }
+
         public virtual ProjectType ProjectType { get; set; }
 
         //  

@@ -32,8 +32,9 @@ export class AuthService {
   }
   saveTokentToStorage(token = '') {
     sessionStorage.setItem('token', token);
-    this.http.get(`${this.url}/api/Account/UserInfo`, { headers: this.getAuthorizationHeaders()})
+    this.http.get(`${this.url}/api/UserInfo/MyUserInfo`, { headers: this.getAuthorizationHeaders()})
       .subscribe((res: any) => {
+        console.log(res);
         sessionStorage.setItem('IsAdmin', String(res.isAdmin));
         sessionStorage.setItem('UserId', res.userId);
       });

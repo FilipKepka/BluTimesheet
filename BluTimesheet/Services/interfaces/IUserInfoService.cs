@@ -9,6 +9,9 @@ namespace BluTimesheet.Services.interfaces
 {
     public interface IUserInfoService
     {
-        UserInfoViewModel Get(string id);
+        UserInfoViewModel Get();
+        IEnumerable<UserInfoViewModel> GetUsers();
+        IEnumerable<UserInfoViewModel> GetAllUsers();
+        UserInfoViewModel GetUsers(string id);
     }
 }

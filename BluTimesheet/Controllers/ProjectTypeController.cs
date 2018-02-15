@@ -43,11 +43,11 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PutProjectType(ProjectType projectType)
         {
-            var projectTypeFromDb = projectTypeService.Get(projectType.ProjectTypeId);
-            if (projectTypeFromDb != null)
+            //var projectTypeFromDb = projectTypeService.Get(projectType.ProjectTypeId);
+            if (projectType != null)
             {
-                projectTypeService.Update(projectType);
-                return Ok();
+                var returnData = projectTypeService.Update(projectType);
+                return Ok(returnData);
             }
             else
             {

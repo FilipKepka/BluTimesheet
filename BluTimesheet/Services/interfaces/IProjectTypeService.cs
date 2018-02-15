@@ -8,7 +8,7 @@ namespace BluTimesheet.Services.interfaces
         void Add(ProjectType projectType);
         void Remove(int id);
         ProjectType Get(int id);
-        void Update(ProjectType projectType);
+        ProjectType Update(ProjectType projectType);
         IEnumerable<ProjectType> GetAll();
 
     }

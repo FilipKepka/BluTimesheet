@@ -1,0 +1,33 @@
+<form #f="ngForm">
+  <div>
+    <mat-dialog-content fxFlexOrder="column">
+      <mat-form-field>
+        <input #input type="text" matInput placeholder="Name" name="name" [(ngModel)]="name" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select placeholder="Type" name="projectTypeName" [(ngModel)]="projectTypeName">
+          <mat-option *ngFor="let value of allProjectTypes" [value]="value.projectTypeId">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input #input type="text" matInput placeholder="Client" name="client" [(ngModel)]="client"
+               required>
+      </mat-form-field>
+      <mat-form-field>
+        <input #input type="text" matInput placeholder="Number" name="projectnumber" [(ngModel)]="projectnumber"
+               required>
+      </mat-form-field>
+    </mat-dialog-content>
+  </div>
+  <div class="flex-button">
+    <mat-dialog-actions >
+      <mat-dialog-content class="flex-button">
+        <button mat-button [mat-dialog-close]="true" [disabled]="!f.valid" (click)="onSave(f)" type="button">Save
+        </button>
+        <button mat-button mat-dialog-close (click)="onCancel()">Cancel</button>
+      </mat-dialog-content>
+    </mat-dialog-actions>
+  </div>
+</form>

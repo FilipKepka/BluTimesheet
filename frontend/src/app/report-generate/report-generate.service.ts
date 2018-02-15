@@ -17,4 +17,17 @@ export class ReportGenerateService {
   loadAllReportForUse(report) {
     return this.http.get(`${this.baseUrl}/activitiesbyuser/${report.TimeFrom}/${report.TimeTo}/${report.id}`, {headers: this.headers});
   }
+
+  loadAllUsers() {
+    return this.http.get(`${this.baseUrl}/UserInfo/UserInfo`, {headers: this.headers});
+  }
+
+  loadAllProject() {
+    return this.http.get(`${this.baseUrl}/Project`, {headers: this.headers});
+  }
+
+  loadAllReportForProject(report) {
+    return this.http.get(`${this.baseUrl}/activitiesbyproject/${report.TimeFrom}/${report.TimeTo}/${report.id}`, {headers: this.headers});
+  }
+
 }

@@ -16,12 +16,27 @@ namespace BluTimesheet.Services.implementations
 
         public UserInfoService(TimesheetDbContext context)
         {
-            userInfoRepository = new UserInfoRepository(context);
+            this.userInfoRepository = new UserInfoRepository(context);
         }
 
-        public UserInfoViewModel Get(string id)
+        public UserInfoViewModel Get()
         {
-            return userInfoRepository.Get(id);
+            return userInfoRepository.GetUserInfo();
+        }
+
+        public IEnumerable<UserInfoViewModel> GetUsers()
+        {
+            return userInfoRepository.GetUsersInfo();
+        }
+
+        public IEnumerable<UserInfoViewModel> GetAllUsers()
+        {
+            return userInfoRepository.GetFullUsersInfo();
+        }
+
+        public UserInfoViewModel GetUsers(string id)
+        {
+            return userInfoRepository.GetUserInfo(id);
         }
     }
 }

@@ -34,12 +34,19 @@ export class ProjectMenagerService {
     }, error => console.log('Load terminals error: ', error));
   }
 
+  loadSingleProject(projectId) {
+    return this.http.get(`${this.baseUrl}/Project/${projectId}`, {headers: this.headers});
+  }
+
+  loadAllProjectTypes() {
+    return this.http.get(`${this.baseUrl}/ProjectType`, {headers: this.headers});
+  }
+
   addProject(data) {
     return this.http.post(`${this.baseUrl}/Project/`, JSON.stringify(data), {headers: this.headers});
   }
 
   deleteColumn(projectId: number) {
-    console.log(projectId);
     this.http.delete(`${this.baseUrl}/Project/${projectId}`, {headers: this.headers})
       .subscribe(response => {
         this.dataStore.projectManager.forEach((t, i) => {
@@ -51,4 +58,7 @@ export class ProjectMenagerService {
       }, error => console.log('Could not delete todo.'));
   }
 
+  editColumn(projectId) {
+    return this.http.put(`${this.baseUrl}/Project`, JSON.stringify(projectId), {headers: this.headers});
+  }
 }

@@ -104,7 +104,7 @@ namespace BluTimesheet.Services.implementations
         //
         public IEnumerable<Activity> GetActivitesByProjectPerTime(DateTime TimeFrom, DateTime TimeTo, int id)
         {
-            return null; // activityRepository.Search(x => x.Begining >= TimeFrom && x.End <= TimeTo && x.Project.Id == id);
+            return activityRepository.Search(x => x.Begining >= TimeFrom && x.Begining <= TimeTo && x.Project.ProjectId == id);
         }
 
         public IEnumerable<Activity> GetActivitesByUserPerTime(DateTime TimeFrom, DateTime TimeTo, string id)

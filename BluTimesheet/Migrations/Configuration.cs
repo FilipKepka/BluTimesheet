@@ -113,10 +113,10 @@ namespace BluTimesheet.Migrations
             ProjectType projectBillable = new ProjectType { Name = "Billable" };
             ProjectType projectNonBillable = new ProjectType { Name = "Non-Billable" };
 
-            Project project1 = new Project { Name = "Timesheet", ProjectType = projectNonBillable };
-            Project project2 = new Project { Name = "Artifex", ProjectType = projectBillable };
-            Project project3 = new Project { Name = "DD-PACK", ProjectType = projectBillable };
-            Project project4 = new Project { Name = "IMPAQ", ProjectType = projectBillable };
+            Project project1 = new Project { Name = "Timesheet", ProjectType = projectNonBillable, Client= "XXX", Projectnumber = "B21" };
+            Project project2 = new Project { Name = "Artifex", ProjectType = projectBillable, Client= "VVV", Projectnumber="B22" };
+            Project project3 = new Project { Name = "DD-PACK", ProjectType = projectBillable, Client = "YYY", Projectnumber = "C32" };
+            Project project4 = new Project { Name = "IMPAQ", ProjectType = projectBillable, Client="XXX", Projectnumber = "D21" };
 
 
             ActivityType activityType1 = new ActivityType { Name = "Working" };

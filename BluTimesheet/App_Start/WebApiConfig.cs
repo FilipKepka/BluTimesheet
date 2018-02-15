@@ -23,6 +23,7 @@ namespace BluTimesheet
             container.RegisterType<IProjectTypeService, ProjectTypeService>();
             container.RegisterType<IProjectService, ProjectService>();
             container.RegisterType<IProjectRoleTypeService, ProjectRoleTypeService>();
+            container.RegisterType<IUserInfoService, UserInfoService>();
             config.DependencyResolver = new UnityDependencyResolver(container);
 
             //Global validation

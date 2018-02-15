@@ -44,11 +44,11 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PutProjectRoleType(ProjectRoleType publicRoleType)
         {
-            var publicRoleTypeDb = projectRoleTypeService.Get(publicRoleType.RoleId);
-            if (publicRoleTypeDb != null)
+            //var publicRoleTypeDb = projectRoleTypeService.Get(publicRoleType.RoleId);
+            if (publicRoleType != null)
             {
-                projectRoleTypeService.Update(publicRoleType);
-                return Ok();
+                var returnData = projectRoleTypeService.Update(publicRoleType);
+                return Ok(returnData);
             }
             else
             {

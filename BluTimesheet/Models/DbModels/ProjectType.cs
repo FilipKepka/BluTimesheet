@@ -17,7 +17,7 @@ namespace BluTimesheet.Models.DbModels
 
 
         //
-        public virtual ICollection<Project> Project { get; set; }
+        //public virtual ICollection<Project> Project { get; set; }
 
     }
 }

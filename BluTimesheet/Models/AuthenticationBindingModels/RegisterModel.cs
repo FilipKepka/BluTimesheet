@@ -22,5 +22,13 @@ namespace BluTimesheet.Models.AuthenticationBidingModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string firstName { get; set; }
+
+        public string lastName { get; set; }
+
+        public string superiorId { get; set; }
+
+        public IList<string> role { get; set; }
     }
 }

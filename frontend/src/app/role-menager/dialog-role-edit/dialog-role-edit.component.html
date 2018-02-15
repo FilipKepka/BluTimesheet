@@ -1,0 +1,15 @@
+<form #f="ngForm">
+  <mat-dialog-content fxFlexOrder="column" class="flex-button">
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="Role name" name="roleName" [(ngModel)]="roleName" required>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div class="flex-button">
+    <mat-dialog-actions>
+      <mat-dialog-content class="flex-button">
+        <button mat-button [mat-dialog-close]="true" [disabled]="!f.valid" (click)="onSave(f)" type="button" >Save</button>
+        <button mat-button mat-dialog-close (click)="onCancel()">Cancel</button>
+      </mat-dialog-content>
+    </mat-dialog-actions>
+  </div>
+</form>

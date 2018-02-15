@@ -9,6 +9,7 @@ import {NgForm} from '@angular/forms';
 import {ProjectTypeModel} from '../../models/projectType.model';
 import { ProjectTypeComponent} from './project-type/project-type.component';
 import {ProjectTypeService} from './project-type/project-type.service';
+import {DialogEditComponent} from './dialog-edit/dialog-edit.component';
 
 @Component({
   selector: 'app-project-menager',
@@ -19,7 +20,7 @@ export class ProjectMenagerComponent implements OnInit {
 
   private projecteManager$: Observable<ProjectsModel[]>;
   private dataSource: MatTableDataSource<ProjectsModel>;
-  private displayedColumns: Array<string> = ['id', 'name', 'projectType' , 'projectnumber' , 'settings'];
+  private displayedColumns: Array<string> = ['id', 'name', 'projectType', 'client' , 'projectnumber' , 'settings' ];
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
   data;
   selectValues: ProjectTypeModel[];
@@ -46,12 +47,12 @@ export class ProjectMenagerComponent implements OnInit {
     body.Name = form.value.newProject;
     body.ProjectType = { ProjectTypeId: form.value.projectType } ;
     body.Projectnumber = form.value.projectNumber;
-    console.log("BODY",body);
-
+    body.Client = form.value.client;
+    console.log(body);
     this.projectManagerService.addProject(body)
       .subscribe((res: ProjectsModel) => {
-        this.data.push({projectId: res.projectId, name: res.name, projectType: res.projectType, projectnumber: res.projectnumber });
-        console.log(this.data);
+        this.data.push({projectId: res.projectId, name: res.name, projectType: res.projectType,
+          projectnumber: res.projectnumber, client: res.client});
         this.dataSource = new MatTableDataSource<ProjectsModel>(this.data);
       });
     form.reset();
@@ -72,6 +73,24 @@ export class ProjectMenagerComponent implements OnInit {
     });
   }
 
+  editProject(projectId) {
+    const dialogRef = this.dialog.open(DialogEditComponent, {
+      width: '350px',
+      data: {
+        projectId,
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((res: ProjectsModel) => {
+        console.log(res);
+        this.data.forEach((e, i) => {
+          if (e.projectId === res.projectId) {
+            this.data[i] = res;
+          }
+        });
+        this.dataSource = new MatTableDataSource<ProjectsModel>(this.data);
+      });
+  }
 
   }
 

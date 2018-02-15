@@ -9,7 +9,7 @@ namespace BluTimesheet.Services.interfaces
         ProjectRoleType Add(ProjectRoleType projectRoleType);
         void Remove(int id);
         ProjectRoleType Get(int id);
-        void Update(ProjectRoleType projectRoleType);
+        ProjectRoleType Update(ProjectRoleType projectRoleType);
         IEnumerable<ProjectRoleType> GetAll();
     }
 }

@@ -26,6 +26,16 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { ProjectTypeComponent } from './project-menager/project-type/project-type.component';
 import { ReportGenerateService } from './report-generate/report-generate.service';
 
+/*MomentModule*/
+import { MomentModule} from 'angular2-moment';
+import { DialogEditComponent } from './project-menager/dialog-edit/dialog-edit.component';
+import { DialogRoleEditComponent } from './role-menager/dialog-role-edit/dialog-role-edit.component';
+import { UserManagerComponent } from './user-manager/user-manager.component';
+import { UserManagerService } from './user-manager/user-manager.service';
+import { DialogNewUserComponent } from './user-manager/dialog-new-user/dialog-new-user.component';
+import { DialogEditUserComponent } from './user-manager/dialog-edit-user/dialog-edit-user.component';
+import { FooterComponent } from './footer/footer.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +47,12 @@ import { ReportGenerateService } from './report-generate/report-generate.service
     RoleMenagerComponent,
     ConfirmationDialogComponent,
     ProjectTypeComponent,
-
+    DialogEditComponent,
+    DialogRoleEditComponent,
+    UserManagerComponent,
+    DialogNewUserComponent,
+    DialogEditUserComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,10 +60,13 @@ import { ReportGenerateService } from './report-generate/report-generate.service
     HttpClientModule,
     FormsModule,
     AppMaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MomentModule,
   ],
-  providers: [AuthGuardService, AuthService, NewActivityService, ProjectMenagerService, RoleMenagerService, ProjectTypeService, ReportGenerateService],
+
+  providers: [AuthGuardService, AuthService, NewActivityService, ProjectMenagerService,
+    RoleMenagerService, ProjectTypeService, ReportGenerateService, UserManagerService],
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent]
+  entryComponents: [ConfirmationDialogComponent, DialogRoleEditComponent, DialogEditComponent, DialogNewUserComponent, DialogEditUserComponent]
 })
 export class AppModule { }

@@ -8,6 +8,7 @@ import { NewActivityComponent } from './new-activity/new-activity.component';
 import {SigninComponent} from './auth/signin/signin.component';
 import { ProjectMenagerComponent} from './project-menager/project-menager.component';
 import { RoleMenagerComponent} from './role-menager/role-menager.component';
+import {UserManagerComponent} from './user-manager/user-manager.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'signin', component: SigninComponent},
   { path: 'project-menager', component: ProjectMenagerComponent},
   { path: 'role-menager', component: RoleMenagerComponent},
+  { path: 'user-manager', component: UserManagerComponent },
 
 ];
 

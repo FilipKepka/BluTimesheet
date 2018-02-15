@@ -12,6 +12,7 @@ export class ActivityModel {
   Project: ProjectsModel;
   ApprovedByManager: string;
   UserId: string;
+  projectId: string;
   CurrentProjectRoleType: RoleMenagerModel;
   HowManyHours: number;
 
@@ -26,6 +27,7 @@ export class ActivityModel {
     this.UserId = projects.UserId;
     this.CurrentProjectRoleType = projects.CurrentProjectRoleType;
     this.HowManyHours = projects.HowManyHours;
+    this.projectId = projects.projectId;
 
   }
 }

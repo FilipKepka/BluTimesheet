@@ -22,6 +22,7 @@ export class NewActivityService {
   }
 
   loadAllProjects() {
+    const headers = this.authService.getAuthorizationHeaders();
     return this.http.get(`${this.baseUrl}/Project`, {headers: this.headers});
   }
 

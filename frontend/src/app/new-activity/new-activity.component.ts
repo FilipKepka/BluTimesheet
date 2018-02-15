@@ -8,7 +8,7 @@ import {RoleMenagerService} from '../role-menager/role-menager.service';
 import {RoleMenagerModel} from '../../models/role-menager.model';
 import {MatTableDataSource} from '@angular/material';
 import {ActivityModel} from '../../models/activity.model';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-new-activity',
@@ -54,7 +54,7 @@ export class NewActivityComponent implements OnInit {
     body.ActivityType = { ActivityId: form.value.activityType };
     body.Project = { ProjectId: form.value.projects};
     body.CurrentProjectRoleType = { RoleId: form.value.currentProjectRoleType};
-    body.Begining = form.value.begining;
+    body.Begining = moment(form.value.begining.toString()).format("YYYY-M-D");
     body.UserId = this.authService.getUserInfo().UserId;
     console.log(body.UserId);
     console.log('activity', body);

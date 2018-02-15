@@ -1,7 +1,9 @@
-﻿using BluTimesheet.Models.DbModels;
+﻿using BluTimesheet.Context;
+using BluTimesheet.Models.DbModels;
 using BluTimesheet.Repositories;
 using BluTimesheet.Services.interfaces;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace BluTimesheet.Services.implementations
@@ -9,10 +11,12 @@ namespace BluTimesheet.Services.implementations
     public class ProjectRoleTypeService : IProjectRoleTypeService
     {
         private readonly ProjectRoleTypeRepository projectRoleTypeRepository;
+        private readonly TimesheetDbContext context;
 
-        public ProjectRoleTypeService(ProjectRoleTypeRepository projectRoleTypeRepository)
+        public ProjectRoleTypeService(TimesheetDbContext context)
         {
-            this.projectRoleTypeRepository = projectRoleTypeRepository;
+            this.context = new TimesheetDbContext();
+            this.projectRoleTypeRepository = new ProjectRoleTypeRepository(context);
         }
 
         public ProjectRoleType Add(ProjectRoleType projectRoleType)
@@ -37,9 +41,17 @@ namespace BluTimesheet.Services.implementations
             projectRoleTypeRepository.Remove(id);
         }
 
-        public void Update(ProjectRoleType projectRoleType)
+        public ProjectRoleType Update(ProjectRoleType projectRoleType)
         {
-            projectRoleTypeRepository.Update(projectRoleType);
+            ProjectRoleType projectRoleTypeTest = context.ProjectRoleType.Find(projectRoleType.RoleId);
+
+            projectRoleTypeTest.RoleName = projectRoleType.RoleName;
+
+            context.Entry(projectRoleTypeTest).State = EntityState.Modified;
+            context.SaveChanges();
+
+            return projectRoleTypeTest;
+            //projectRoleTypeRepository.Update(projectRoleType);
         }
     }
 }

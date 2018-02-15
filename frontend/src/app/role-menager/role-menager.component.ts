@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { RoleMenagerService } from './role-menager.service';
 import {NgForm} from '@angular/forms';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import {DialogEditComponent} from '../project-menager/dialog-edit/dialog-edit.component';
+import {DialogRoleEditComponent} from './dialog-role-edit/dialog-role-edit.component';
 
 @Component({
   selector: 'app-role-menager',
@@ -19,11 +21,11 @@ export class RoleMenagerComponent implements OnInit {
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
   data;
 
-  constructor( private roleMenagerService: RoleMenagerService, private dialog: MatDialog ) { }
+  constructor( private roleManagerService: RoleMenagerService, private dialog: MatDialog ) { }
 
   ngOnInit() {
-    this.roleMenager$ = this.roleMenagerService.roleMenager$;
-    this.roleMenagerService.loadAllRole();
+    this.roleMenager$ = this.roleManagerService.roleMenager$;
+    this.roleManagerService.loadAllRole();
     this.roleMenager$
       .subscribe((data: RoleMenagerModel[]) => {
         this.data = data;
@@ -34,9 +36,8 @@ export class RoleMenagerComponent implements OnInit {
   addNewRole(form: NgForm) {
     const body: any = {};
     body.RoleName = form.value.addNewRoleManager;
-    this.roleMenagerService.addRole(body)
+    this.roleManagerService.addRole(body)
       .subscribe((res: RoleMenagerModel) => {
-        console.log("log",res);
         this.data.push({id: res.roleId, roleName: res.roleName});
         this.dataSource = new MatTableDataSource<RoleMenagerModel>(this.data);
       });
@@ -52,10 +53,29 @@ export class RoleMenagerComponent implements OnInit {
 
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.roleMenagerService.deleteColumn(id);
+        this.roleManagerService.deleteColumn(id);
       }
       this.dialogRef = null;
     });
+  }
+
+  editRole(roleId) {
+      const dialogRef = this.dialog.open(DialogRoleEditComponent, {
+      width: '300px',
+      data: {
+        roleId,
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((res: RoleMenagerModel) => {
+      this.data.forEach((e, i) => {
+        if(e.roleId === res.roleId) {
+          this.data[i] = res;
+        }
+      });
+      this.dataSource = new MatTableDataSource<RoleMenagerModel>(this.data);
+      });
+
   }
 
 

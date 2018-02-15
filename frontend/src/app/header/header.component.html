@@ -17,6 +17,9 @@
         <button type="button" mat-button routerLinkActive="lol" routerLink="/role-menager">
           Role manager
         </button>
+        <button type="button" mat-button routerLinkActive="lol" routerLink="/user-manager">
+          User manager
+        </button>
     </div>
     <div>
       <form class="singInForm" (ngSubmit)="onLogout()" *ngIf="authService.isAuthenticated()">

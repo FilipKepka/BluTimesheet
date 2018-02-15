@@ -4,7 +4,7 @@
       <mat-form-field>
         <input matInput placeholder="Add new role" name="addNewRoleManager" ngModel>
       </mat-form-field>
-      <button mat-raised-button type="submit" [disabled]="!f.valid">Add</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">Add</button>
     </form>
   </div>
 
@@ -13,7 +13,7 @@
       <ng-container matColumnDef="settings">
         <mat-header-cell *matHeaderCellDef> Settings</mat-header-cell>
         <mat-cell clas="settingsButtonFlex" *matCellDef="let element">
-          <button class="mat-column-settings-button" mat-button color="primary">Edit
+          <button class="mat-column-settings-button" (click)="editRole(element.roleId)" mat-button color="primary">Edit
             <mat-icon>edit</mat-icon>
           </button>
           <button class="mat-column-settings-button" (click)="removeRole(element.roleId)" mat-button color="primary">Remove

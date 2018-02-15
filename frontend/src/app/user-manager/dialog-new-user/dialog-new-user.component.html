@@ -1,0 +1,49 @@
+<form #f="ngForm">
+  <mat-dialog-content fxFlexOrder="column">
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="Email" name="email" [(ngModel)]="email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="Password" name="password" [(ngModel)]="password" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="Confirm password" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="First name" name="firstName" [(ngModel)]="firstName" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="Surname" name="lastName" [(ngModel)]="lastName" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Superior" name="superiorId" ngModel="superiorId" required>
+        <mat-option *ngFor="let user of dataSource" value="{{user.userId}}">
+          {{user.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-select placeholder="Role" name="role" [(ngModel)]="role" required>
+        <mat-option value="Admin">
+          Admin
+        </mat-option>
+        <mat-option value="Manager">
+          Manager
+        </mat-option>
+        <mat-option value="User">
+          User
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div class="flex-button">
+    <mat-dialog-actions>
+      <mat-dialog-content class="flex-button">
+        <button mat-button [mat-dialog-close]="true" [disabled]="!f.valid" (click)="onSave(f)" type="button" >Save</button>
+        <button mat-button mat-dialog-close (click)="onCancel()">Cancel</button>
+      </mat-dialog-content>
+    </mat-dialog-actions>
+  </div>
+</form>

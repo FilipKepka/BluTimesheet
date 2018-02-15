@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BluTimesheet.Models.DbModels;
 using System.Threading.Tasks;
 using BluTimesheet.Context;
+using System.Data.Entity;
 
 namespace BluTimesheet.Services.implementations
 {
@@ -11,8 +12,11 @@ namespace BluTimesheet.Services.implementations
     {
         private readonly ProjectTypeRepository projectTypeRepository;
 
+        private readonly TimesheetDbContext context;
+
         public ProjectTypeService(TimesheetDbContext context)
         {
+            this.context = new TimesheetDbContext();
             this.projectTypeRepository = new ProjectTypeRepository(context);
         }
 
@@ -36,9 +40,17 @@ namespace BluTimesheet.Services.implementations
             projectTypeRepository.Remove(id);
         }
 
-        public void Update(ProjectType projectType)
+        public ProjectType Update(ProjectType projectType)
         {
-            projectTypeRepository.Update(projectType);
+            ProjectType projectTypeToEdit = context.ProjectType.Find(projectType.ProjectTypeId);
+
+            projectTypeToEdit.Name = projectType.Name;
+
+            context.Entry(projectTypeToEdit).State = EntityState.Modified;
+            context.SaveChanges();
+
+            return projectTypeToEdit;
+          //  projectTypeRepository.Update(projectType);
         }
     }
 }

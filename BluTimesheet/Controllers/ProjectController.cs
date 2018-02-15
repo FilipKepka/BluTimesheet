@@ -50,11 +50,11 @@ namespace BluTimesheet.Controllers
 
         public IHttpActionResult PutProject(Project project)
         {
-            var projectFromDb = projectService.Get(project.ProjectId);
-            if (projectFromDb != null)
+            //var projectFromDb = projectService.Get(project.ProjectId);
+            if (project != null)
             {
-                projectService.Update(projectFromDb);
-                return Ok();
+                var returnData = projectService.Update(project);
+                return Ok(returnData);
             }
             else
             {

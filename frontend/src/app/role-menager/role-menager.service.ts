@@ -33,6 +33,10 @@ export class RoleMenagerService {
     }, error => console.log('Load terminals error: ', error));
   }
 
+  loadSingleRole(roleId) {
+    return this.http.get(`${this.baseUrl}/ProjectRoleType/${roleId}`, {headers: this.headers});
+  }
+
   addRole(data) {
     return this.http.post(`${this.baseUrl}/ProjectRoleType/`, JSON.stringify(data), {headers: this.headers});
   }
@@ -48,5 +52,9 @@ export class RoleMenagerService {
          this._roleMenager.next(Object.assign({}, this.dataStore).roleMenager);
        }, error => console.log('Could not delete todo.'));
      }
+
+   editColumn(roleId) {
+     return this.http.put(`${this.baseUrl}/ProjectRoleType`, JSON.stringify(roleId), {headers: this.headers});
+   }
 
 }

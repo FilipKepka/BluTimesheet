@@ -1,46 +1,200 @@
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource" matSort>
+<mat-tab-group>
+  <mat-tab label="ByUser">
 
-    <!-- Data Column -->
-    <ng-container matColumnDef="Data">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.begining}} </mat-cell>
-    </ng-container>
-    <!-- Hours Column -->
-    <ng-container matColumnDef="Hours">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Hours </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.howManyHours}} </mat-cell>
-    </ng-container>
+    <form (ngSubmit)="searchReportByDataAndUser(f)" #f="ngForm" class="form-class-margin">
+      <mat-form-field>
+        <input matInput [matDatepicker]="timeFromPicker" placeholder="Time from" name="timeFrom" ngModel>
+        <mat-datepicker-toggle matSuffix [for]="timeFromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #timeFromPicker></mat-datepicker>
+      </mat-form-field>
 
-    <!-- ActivityType Column -->
-    <ng-container matColumnDef="ActivityType">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Activity type </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.activityType.name}} </mat-cell>
-    </ng-container>
+      <mat-form-field>
+        <input matInput [matDatepicker]="timeToPicker" placeholder="Time to" name="timeTo" ngModel>
+        <mat-datepicker-toggle matSuffix [for]="timeToPicker"></mat-datepicker-toggle>
+        <mat-datepicker #timeToPicker></mat-datepicker>
+      </mat-form-field>
 
-    <!-- Project Column -->
-    <ng-container matColumnDef="Project">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Project </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.project.name}} </mat-cell>
-    </ng-container>
+      <mat-form-field>
+        <mat-select placeholder="User" name="user" ngModel>
+          <mat-option *ngFor="let value of userDataSource" [value]="value">
+            {{ value.lastName + " " + value.fistName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" (click)="searchReportByDataAndUser(f)" type="button">
+        Search
+      </button>
+    </form>
+    <div class="example-container mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="User">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> User</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{userIdToRealName(element.userId)}}</mat-cell>
+        </ng-container>
+        <!-- Data Column -->
+        <ng-container matColumnDef="Data">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Data</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.begining.substring(0,10)}}</mat-cell>
+        </ng-container>
+        <!-- Hours Column -->
+        <ng-container matColumnDef="Hours">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.howManyHours}}</mat-cell>
+        </ng-container>
 
-    <!-- ProjectRole Column -->
-    <ng-container matColumnDef="ProjectRole">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.currentProjectRoleType.roleName }} </mat-cell>
-    </ng-container>
+        <!-- ActivityType Column -->
+        <ng-container matColumnDef="ActivityType">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Activity type</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.activityType.name}}</mat-cell>
+        </ng-container>
 
-    <!-- ProjectRole Column -->
-    <ng-container matColumnDef="ApprovedByManager">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Approved </mat-header-cell>
-      <mat-cell *matCellDef="let element"> <mat-checkbox  [disabled]="true" [checked]="element.approvedByManager"  ></mat-checkbox> </mat-cell>
-    </ng-container>
+        <!-- Project Column -->
+        <ng-container matColumnDef="Project">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Project</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.project.name}}</mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-  <mat-paginator [length]="100"
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 25, 100]">
-  </mat-paginator>
-</div>
+        <!-- ProjectRole Column -->
+        <ng-container matColumnDef="ProjectRole">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Role</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.currentProjectRoleType.roleName }}</mat-cell>
+        </ng-container>
+
+        <!-- ProjectRole Column -->
+        <ng-container matColumnDef="ApprovedByManager">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Approved</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-checkbox [disabled]="true" [checked]="element.approvedByManager"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator #paginator
+                     [length]="100"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
+
+    <div class="form-class-margin" style=" margin: auto">
+      <table cellspacing="15">
+        <tr>
+          <th align="center"></th>
+          <th align="center">Working</th>
+          <th align="center">Sickness</th>
+          <th align="center">Holidays</th>
+          <th align="center">Bank Holidays</th>
+          <th align="center">Event</th>
+          <th align="center">Other</th>
+        </tr>
+
+        <tr>
+          <th>Sum (hours)</th>
+          <td align="center">{{userHoursPerPerson("Working")}}</td>
+          <td align="center">{{userHoursPerPerson("Sickness")}}</td>
+          <td align="center">{{userHoursPerPerson("Holidays")}}</td>
+          <td align="center">{{userHoursPerPerson("Bank Holidays")}}</td>
+          <td align="center">{{userHoursPerPerson("Event")}}</td>
+          <td align="center">{{userHoursPerPerson("Other")}}</td>
+        </tr>
+      </table>
+    </div>
+
+  </mat-tab>
+  <mat-tab label="ByProject">
+    <form (ngSubmit)="searchRaportByDataAndProject(g)" #g="ngForm" class="form-class-margin">
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="timeFromPickerProject" placeholder="Time from" name="timeFromProject" ngModel>
+        <mat-datepicker-toggle matSuffix [for]="timeFromPickerProject"></mat-datepicker-toggle>
+        <mat-datepicker #timeFromPickerProject></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="timeToPickerProject" placeholder="Time to" name="timeToProject" ngModel>
+        <mat-datepicker-toggle matSuffix [for]="timeToPickerProject"></mat-datepicker-toggle>
+        <mat-datepicker #timeToPickerProject></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Project" name="project" ngModel>
+          <mat-option *ngFor="let value of projectDataSource" [value]="value">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" (click)="searchRaportByDataAndProject(g)" type="button">
+        Search
+      </button>
+    </form>
+
+    <div class="example-container mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSourcePerProject" matSort>
+        <ng-container matColumnDef="User">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> User</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{userIdToRealName(element.userId)}}</mat-cell>
+        </ng-container>
+        <!-- Data Column -->
+        <ng-container matColumnDef="Data">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Data</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.begining.substring(0,10)}}</mat-cell>
+        </ng-container>
+        <!-- Hours Column -->
+        <ng-container matColumnDef="Hours">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Hours</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.howManyHours}}</mat-cell>
+        </ng-container>
+
+        <!-- ActivityType Column -->
+        <ng-container matColumnDef="ActivityType">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Activity type</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.activityType.name}}</mat-cell>
+        </ng-container>
+
+        <!-- Project Column -->
+        <ng-container matColumnDef="Project">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Project</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.project.name}}</mat-cell>
+        </ng-container>
+
+        <!-- ProjectRole Column -->
+        <ng-container matColumnDef="ProjectRole">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Role</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.currentProjectRoleType.roleName }}</mat-cell>
+        </ng-container>
+
+        <!-- ProjectRole Column -->
+        <ng-container matColumnDef="ApprovedByManager">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Approved</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-checkbox [disabled]="true" [checked]="element.approvedByManager"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator #otherPaginator
+                     [length]="100"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
+
+    <div class="form-class-margin" style=" margin: auto">
+      <table cellspacing="15" >
+        <tr>
+          <th>Sum (hours)</th>
+          <td align="center">{{userHoursPerProject("Any")}}</td>
+        </tr>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+
+
