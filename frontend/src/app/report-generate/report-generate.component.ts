@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, AfterViewInit, ViewChildren} from '@angular/core';
-import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator, MatDialog} from '@angular/material';
 import {ReportGenerateService} from './report-generate.service';
 import {AuthService} from '../auth/auth.service';
 import {log} from 'util';
@@ -12,6 +12,10 @@ import {UserInfoModel} from '../../models/userInfo.model';
 import {forEach} from '@angular/router/src/utils/collection';
 import {ProjectsModel} from '../../models/projects.model';
 import {UserHoursModel} from '../../models/userHours.model';
+import {DialogEditReportComponent} from './dialog-edit-report/dialog-edit-report.component';
+import {isLineBreak} from 'codelyzer/angular/sourceMappingVisitor';
+import {Breakpoint, BreakResponse} from '_debugger';
+
 
 @Component({
   selector: 'app-report-generate',
@@ -27,6 +31,7 @@ export class ReportGenerateComponent implements OnInit, AfterViewInit {
   dataSourcePerProject = new MatTableDataSource<ActivityModel>();
   dataReportSource: any;
   userHourData: number;
+  timeFrom: any;
 
   userList: any[];
   dataProject;
@@ -36,7 +41,8 @@ export class ReportGenerateComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator') paginator: MatPaginator;
   @ViewChild('otherPaginator') otherPaginator: MatPaginator;
 
-  constructor(private reportGenerateService: ReportGenerateService, private authService: AuthService) {
+  constructor(private reportGenerateService: ReportGenerateService, private authService: AuthService,
+              private dialog: MatDialog ) {
   }
 
   ngOnInit() {
@@ -77,6 +83,7 @@ export class ReportGenerateComponent implements OnInit, AfterViewInit {
     body.TimeFrom = moment(form.value.timeFrom.toString()).format('YYYY-M-D');
     body.TimeTo = moment(form.value.timeTo.toString()).format('YYYY-M-D');
     body.id = form.value.user.userId;
+    console.log(body);
     this.reportGenerateService.loadAllReportForUse(body)
       .subscribe((res: ActivityModel) => {
         this.data = res;
@@ -136,4 +143,46 @@ export class ReportGenerateComponent implements OnInit, AfterViewInit {
 
     }
   }
+
+  editReport(reportId) {
+    let onlyOneToDeleteData = 0;
+    let onlyOneToDeleteDataProject = 0;
+    let dialogRef = this.dialog.open(DialogEditReportComponent, {
+      width: '500px',
+      data: {
+        reportId,
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe((res: any) => {
+        if (this.data) {
+          this.data.forEach((e, i) => {
+            if (res === "remove") {
+              if (e.id === reportId) {
+                this.data.splice(i, 1);
+                onlyOneToDeleteData++;
+              }
+            } else if (e.id === res.id) {
+              this.data[i] = res;
+            }
+          });
+        }
+        if (this.dataProject) {
+          this.dataProject.forEach((e, i) => {
+            if (res === "remove") {
+              if (e.id === reportId) {
+                this.dataProject.splice(i, 1);
+                onlyOneToDeleteDataProject++;
+              }
+            } else if (e.id === res.id) {
+              this.dataProject[i] = res;
+            }
+          });
+        }
+        this.dataSource = new MatTableDataSource<ActivityModel>(this.data);
+        this.dataSourcePerProject = new MatTableDataSource<ActivityModel>(this.dataProject);
+        this.ngAfterViewInit();
+      });
+  }
+
 }

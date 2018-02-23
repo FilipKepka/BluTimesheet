@@ -1,0 +1,63 @@
+<form #f="ngForm">
+  <div>
+    <mat-dialog-content fxFlexOrder="column">
+      <mat-form-field class="container-new-activity">
+        <input matInput [matDatepicker]="beginningPicker" placeholder="Beginning" name="beginning" [(ngModel)]="beginning" required>
+        <mat-datepicker-toggle matSuffix [for]="beginningPicker"></mat-datepicker-toggle>
+        <mat-datepicker #beginningPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="How many hours" name="howManyHours" [(ngModel)]="howManyHours" required>
+          <mat-option *ngFor="let value of Hours" [value]="value">
+            {{ value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="container-new-activity">
+        <textarea disabled="false" matInput #addComments placeholder="Description" name="description"
+                  [(ngModel)]="description" ></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="Activity type" name="activityId" [(ngModel)]="activityId" required>
+          <mat-option *ngFor="let value of allActivityType" [value]="value.activityId">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="Project name" name="projectId" [(ngModel)]="projectId" required>
+          <mat-option *ngFor="let value of allProjects" [value]="value.projectId">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="Current project role type" name="roleId" [(ngModel)]="roleId" required>
+          <mat-option *ngFor="let value of allProjectRoleTypes" [value]="value.roleId">
+            {{ value.roleName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox *ngIf="authService.isInRoleManager()" name="approvedByManager" [(ngModel)]="approvedByManager">Approved by manager</mat-checkbox>
+
+    </mat-dialog-content>
+  </div>
+
+  <div class="flex-button">
+    <mat-dialog-actions>
+      <mat-dialog-content class="flex-button">
+        <button mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="!f.valid" (click)="onSave(f)" type="button">Save
+        </button>
+        <button mat-raised-button color="primary" mat-dialog-close (click)="onCancel()">Cancel</button>
+        <button mat-raised-button color="primary" mat-dialog-close (click)="onDelete()">
+          Delete</button>
+      </mat-dialog-content>
+    </mat-dialog-actions>
+  </div>
+</form>

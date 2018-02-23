@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BluTimesheet.Controllers
 {
     //[Authorize(Roles = Startup.roleAdmin)]
+    [Authorize]
     public class ProjectTypeController : ApiController
     {
         private IProjectTypeService projectTypeService;
@@ -16,12 +17,13 @@ namespace BluTimesheet.Controllers
             this.projectTypeService = projectTypeService;
         }
 
-    
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult PostProjectType(ProjectType projectType)
         {
             projectTypeService.Add(projectType);
             return Ok();
         }
+
 
         public IEnumerable<ProjectType> GetProjectTypes()
         {
@@ -41,6 +43,7 @@ namespace BluTimesheet.Controllers
             
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult PutProjectType(ProjectType projectType)
         {
             //var projectTypeFromDb = projectTypeService.Get(projectType.ProjectTypeId);
@@ -55,6 +58,7 @@ namespace BluTimesheet.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult DeleteProjectType(int id)
         {
             var projectType = projectTypeService.Get(id);

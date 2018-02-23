@@ -34,15 +34,14 @@ export class AuthService {
     sessionStorage.setItem('token', token);
     this.http.get(`${this.url}/api/UserInfo/MyUserInfo`, { headers: this.getAuthorizationHeaders()})
       .subscribe((res: any) => {
-        console.log(res);
-        sessionStorage.setItem('IsAdmin', String(res.isAdmin));
+        sessionStorage.setItem('role', res.role[0]);
         sessionStorage.setItem('UserId', res.userId);
       });
   }
 
   removeTokenFromStorage() {
     sessionStorage.removeItem('token');
-    sessionStorage.removeItem('IsAdmin');
+    sessionStorage.removeItem('role');
     sessionStorage.removeItem('UserId');
   }
 
@@ -92,6 +91,23 @@ export class AuthService {
     const token = this.getTokenFromStorage();
     if (token) return true;
     return false;
+  }
+
+  isInRoleManager() {
+    const item =  sessionStorage.getItem('role')
+    if (item == 'Admin' || item == 'Manager') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  isInRoleAdmin() {
+    const item =  sessionStorage.getItem('role')
+    if (item == 'Admin') {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   isAdmin() {

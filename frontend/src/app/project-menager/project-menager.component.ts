@@ -10,6 +10,7 @@ import {ProjectTypeModel} from '../../models/projectType.model';
 import { ProjectTypeComponent} from './project-type/project-type.component';
 import {ProjectTypeService} from './project-type/project-type.service';
 import {DialogEditComponent} from './dialog-edit/dialog-edit.component';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
   selector: 'app-project-menager',
@@ -25,7 +26,7 @@ export class ProjectMenagerComponent implements OnInit {
   data;
   selectValues: ProjectTypeModel[];
 
-  constructor(private projectManagerService: ProjectMenagerService,
+  constructor(private projectManagerService: ProjectMenagerService, private authService: AuthService,
               private projectTypeService: ProjectTypeService, private dialog: MatDialog) { }
 
   ngOnInit() {
@@ -48,7 +49,6 @@ export class ProjectMenagerComponent implements OnInit {
     body.ProjectType = { ProjectTypeId: form.value.projectType } ;
     body.Projectnumber = form.value.projectNumber;
     body.Client = form.value.client;
-    console.log(body);
     this.projectManagerService.addProject(body)
       .subscribe((res: ProjectsModel) => {
         this.data.push({projectId: res.projectId, name: res.name, projectType: res.projectType,
@@ -82,7 +82,6 @@ export class ProjectMenagerComponent implements OnInit {
     });
     dialogRef.afterClosed()
       .subscribe((res: ProjectsModel) => {
-        console.log(res);
         this.data.forEach((e, i) => {
           if (e.projectId === res.projectId) {
             this.data[i] = res;

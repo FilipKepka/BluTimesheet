@@ -4,6 +4,7 @@ using BluTimesheet.Repositories;
 using BluTimesheet.Services.interfaces;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BluTimesheet.Services.implementations
@@ -38,7 +39,15 @@ namespace BluTimesheet.Services.implementations
 
         public void Remove(int id)
         {
-            projectRoleTypeRepository.Remove(id);
+            ProjectRoleType entityToDelete = context.ProjectRoleType.Find(id);
+            List<Activity> activityToDelete = new List<Activity>();
+            var zmienna = context.Activity.Where(i => i.CurrentProjectRoleType.RoleId == entityToDelete.RoleId);
+            foreach (var item in zmienna)
+            {
+                context.Activity.Remove(item);
+            }
+            context.ProjectRoleType.Remove(entityToDelete);
+            context.SaveChanges();
         }
 
         public ProjectRoleType Update(ProjectRoleType projectRoleType)

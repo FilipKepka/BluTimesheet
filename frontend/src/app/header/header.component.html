@@ -11,20 +11,45 @@
         <button type="button" mat-button routerLinkActive="lol" routerLink="/report-generate">
           Report generate
         </button>
-        <button type="button" mat-button routerLinkActive="lol" routerLink="/project-menager">
+        <button  *ngIf="authService.isInRoleManager()" type="button" mat-button routerLinkActive="lol" routerLink="/project-menager">
           Project manager
         </button>
-        <button type="button" mat-button routerLinkActive="lol" routerLink="/role-menager">
+        <button  *ngIf="authService.isInRoleManager()" type="button" mat-button routerLinkActive="lol" routerLink="/role-menager">
           Role manager
         </button>
-        <button type="button" mat-button routerLinkActive="lol" routerLink="/user-manager">
+        <button  *ngIf="authService.isInRoleManager()" type="button" mat-button routerLinkActive="lol" routerLink="/user-manager">
           User manager
         </button>
     </div>
     <div>
-      <form class="singInForm" (ngSubmit)="onLogout()" *ngIf="authService.isAuthenticated()">
+<!--      <form  (ngSubmit)="onLogout()" *ngIf="authService.isAuthenticated()">
         <button mat-raised-button type="submit">LogOut</button>
-      </form>
+      </form>-->
+
+      <div>
+        <span fxFlex></span>
+
+        <button mat-icon-button
+                [matMenuTriggerFor]="menu" *ngIf="authService.isAuthenticated()">
+          <mat-icon>face</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu"  >
+
+          <button mat-menu-item
+                  (click)="onLogout()">
+            <mat-icon>dialpad</mat-icon>
+            <span>Logout</span>
+          </button>
+          <button mat-menu-item
+                  (click)="changePassword()">
+            <mat-icon>lock</mat-icon>
+            <span>Password change</span>
+          </button>
+
+        </mat-menu>
+      </div>
+
     </div>
   </div>
 

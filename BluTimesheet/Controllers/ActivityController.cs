@@ -8,9 +8,11 @@ using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace BluTimesheet.Controllers
 {
+    [Authorize]
     public class ActivityController : ApiController
     {
         private IActivityService activityService;
@@ -42,7 +44,7 @@ namespace BluTimesheet.Controllers
         {
             bool insertedId = id != "";
 
-            if (User.IsInRole(Startup.roleAdmin) && insertedId)
+            if ((User.IsInRole(Startup.roleAdmin) && insertedId) || (User.IsInRole(Startup.roleManager) && insertedId))
             {
                 return Ok(activityService.GetActivitesByUser(id));
             }
@@ -86,21 +88,26 @@ namespace BluTimesheet.Controllers
         public IHttpActionResult GetActivity(int id)
         {
             var activity = activityService.Get(id);
-            bool isAuthor = activity.UserId == User.Identity.GetUserId();
+            if (!(activity == null))
+            {
+                bool isAuthor = activity.UserId == User.Identity.GetUserId();
 
-            if (activity != null && isAuthor || User.IsInRole(Startup.roleAdmin)) 
-            {
-                return Ok(activity);
+                if (activity != null && isAuthor || User.IsInRole(Startup.roleAdmin) || User.IsInRole(Startup.roleManager))
+                {
+                    return Ok(activity);
+                }
+                else if (activity != null && !isAuthor)
+                {
+                    return Unauthorized();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else if (activity != null && !isAuthor)
-            {
-                return Unauthorized();
+            else{
+                throw new HttpException((int)HttpStatusCode.NotFound, string.Format("No activity found"));
             }
-            else
-            {
-                return NotFound();
-            }
-
         }
 
         public IHttpActionResult PutActivity(Activity activity)
@@ -108,12 +115,13 @@ namespace BluTimesheet.Controllers
             var activityFromDb = activityService.Get(activity.Id);
             bool isAuthor = activityFromDb.UserId == User.Identity.GetUserId();
 
-            if (activityFromDb != null && isAuthor && activityFromDb.ApprovedByManager == false)
+            if ((activityFromDb != null && isAuthor && activityFromDb.ApprovedByManager == false) || 
+                activityFromDb !=null && User.IsInRole(Startup.roleAdmin) || User.IsInRole(Startup.roleManager) )
             {
-                activityService.Update(activity);
-                return Ok();
+                var returnData = activityService.Update(activity);
+                return Ok(returnData);
             }
-            else if (activityFromDb != null && !isAuthor)
+            else if ((activityFromDb != null && !isAuthor) || (activityFromDb != null && isAuthor && activityFromDb.ApprovedByManager == true))
             {
                 return Unauthorized();
             }
@@ -128,7 +136,8 @@ namespace BluTimesheet.Controllers
             var activity = activityService.Get(id);
             bool isAuthor = activity.UserId == User.Identity.GetUserId();
 
-            if (activity != null && isAuthor) // || admin
+            if ((activity != null && isAuthor) || 
+                (activity !=null && (User.IsInRole(Startup.roleAdmin) || User.IsInRole(Startup.roleManager)))) // || admin
             {
                 activityService.Remove(id);
                 return Ok();
@@ -143,24 +152,33 @@ namespace BluTimesheet.Controllers
             }            
         }
 
-        public IHttpActionResult SubmitActivityToManager(int id)
+        public IHttpActionResult SubmitActivityToManager(string id)
         {
-            var activityFromDb = activityService.Get(id);
-            bool isAuthor = activityFromDb.UserId == User.Identity.GetUserId();
+            /* var activityFromDb = activityService.Get(id);
+             bool isAuthor = activityFromDb.UserId == User.Identity.GetUserId();
 
-            if (activityFromDb != null && isAuthor && activityFromDb.ApprovedByManager == false)
-            {
-                activityService.SubmitToManager(id);
-                return Ok();
-            }
-            else if (activityFromDb != null && !isAuthor)
-            {
-                return Unauthorized();
-            }
-            else
-            {
-                return NotFound();
-            }
+             if (activityFromDb != null && isAuthor && activityFromDb.ApprovedByManager == false)
+             {
+                 activityService.SubmitToManager(id);
+                 return Ok();
+             }
+             else if (activityFromDb != null && !isAuthor)
+             {
+                 return Unauthorized();
+             }
+             else
+             {
+                 return NotFound();
+             } */
+            return NotFound();
+        }
+
+        [HttpPost]
+        [Route("api/sendEmailToSuperior")]
+        public IHttpActionResult sendEmailToSuperior(Activity activity)
+        {
+            activityService.SubmitToManager(activity);
+            return Ok();
         }
 
         //[Authorize(Roles = Startup.roleAdmin)]

@@ -4,6 +4,7 @@ using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
 using Microsoft.Owin.Cors;
+using BluTimesheet.Authorization;
 
 [assembly: OwinStartup(typeof(BluTimesheet.Startup))]
 
@@ -17,6 +18,7 @@ namespace BluTimesheet
             app.UseCors(CorsOptions.AllowAll);
             ConfigureAuth(app);
             app.UseWebApi(config);
+            //app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
         }        
     }
 }

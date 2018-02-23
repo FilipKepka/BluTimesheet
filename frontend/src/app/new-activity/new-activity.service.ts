@@ -8,7 +8,6 @@ import {ActivityModel} from '../../models/activity.model';
 @Injectable()
 export class NewActivityService {
 
-  public headers;
   private baseUrl: string;
   private dataStore: {
     projectManager: ProjectsModel[];
@@ -16,26 +15,29 @@ export class NewActivityService {
 
 
   constructor( private http: HttpClient, private authService: AuthService) {
-    this.headers = this.authService.getAuthorizationHeaders();
     this.dataStore = {projectManager: []};
-    this.baseUrl = 'http://localhost:51107/api';
+    this.baseUrl = this.authService.url;
   }
 
   loadAllProjects() {
     const headers = this.authService.getAuthorizationHeaders();
-    return this.http.get(`${this.baseUrl}/Project`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/Project`);
   }
 
   loadAllProjectRole() {
-    return this.http.get(`${this.baseUrl}/ProjectRoleType`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/ProjectRoleType`);
   }
 
   loadAllActivityType() {
-    return this.http.get(`${this.baseUrl}/ActivityType`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/ActivityType`);
   }
 
   addNewActivity(activity) {
+    return this.http.post(`${this.baseUrl}/api/Activity`, JSON.stringify(activity));
+  }
+
+  sendEmail(activity) {
     console.log(activity);
-    return this.http.post(`http://localhost:51107/api/Activity`, JSON.stringify(activity), {headers: this.headers});
+    return this.http.post(`${this.baseUrl}/api/sendEmailToSuperior/`, JSON.stringify(activity));
   }
 }

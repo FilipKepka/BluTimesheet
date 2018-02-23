@@ -6,37 +6,40 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using BluTimesheet.Context;
+using System.Data.Entity;
+using System.Web;
+using BluTimesheet.Authorization;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
+using BluTimesheet.EmailSender;
 
 namespace BluTimesheet.Services.implementations
 {
     public class ActivityService : IActivityService
     {
         private readonly ActivityTypeRepository activityTypeRepository;
-
         private readonly ProjectRoleTypeRepository projectRoleTypeRepository;
-
         private readonly ActivityRepository activityRepository;
-
         private readonly ProjectRepository projectRepository;
+        private readonly TimesheetDbContext context;
+        private ApplicationUserManager userManager;
+        private readonly Email email;
 
         public ActivityService(TimesheetDbContext context, ActivityRepository activityRepository)
         {
+            this.context = new TimesheetDbContext();
             this.activityTypeRepository = new ActivityTypeRepository(context);
             this.activityRepository = new ActivityRepository(context);
             this.projectRoleTypeRepository = new ProjectRoleTypeRepository(context);
             this.projectRepository = new ProjectRepository(context);
+            this.email = new Email();
+            userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
         }
 
         public void Add(Activity dailyActivity)
         {
-            /*  var types = activityTypeRepository.GetAll();
-              var exactType = types.First(x => x.Name == dailyActivity.ActivityType.Name);
-
-              dailyActivity.ActivityType = exactType;
-              activityRepository.Add(dailyActivity);*/
-
             var types = activityTypeRepository.GetAll();
-            // var exactType = types.First(x => x.Name == dailyActivity.ActivityType.Name);
+
             var exactType = types.First(x => x.ActivityId == dailyActivity.ActivityType.ActivityId);
             dailyActivity.ActivityType = exactType;
 
@@ -48,7 +51,6 @@ namespace BluTimesheet.Services.implementations
             var exactProject = projects.First(x => x.ProjectId == dailyActivity.Project.ProjectId);
             dailyActivity.Project = exactProject;
 
-            //dailyActivity.ActivityType.Id = exactType.Id;
             activityRepository.Add(dailyActivity);
         }
 
@@ -73,9 +75,24 @@ namespace BluTimesheet.Services.implementations
             activityRepository.Remove(id);
         }
 
-        public void Update(Activity dailyActivity)
+        public Activity Update(Activity dailyActivity)
         {
-            activityRepository.Update(dailyActivity);
+            Activity activityToEdit = context.Activity.Find(dailyActivity.Id);
+            Project projectToEdit = context.Project.Find(dailyActivity.Project.ProjectId);
+            ActivityType activityTypeToEdit = context.ActivityType.Find(dailyActivity.ActivityType.ActivityId);
+            ProjectRoleType projectRoleToEdit = context.ProjectRoleType.Find(dailyActivity.CurrentProjectRoleType.RoleId);
+
+            activityToEdit.Begining = dailyActivity.Begining;
+            activityToEdit.HowManyHours = dailyActivity.HowManyHours;
+            activityToEdit.description = dailyActivity.description;
+            activityToEdit.ActivityType = activityTypeToEdit;
+            activityToEdit.Project = projectToEdit;
+            activityToEdit.CurrentProjectRoleType = projectRoleToEdit;
+            activityToEdit.ApprovedByManager = dailyActivity.ApprovedByManager;
+
+            context.Entry(activityToEdit).State = EntityState.Modified;
+            context.SaveChanges();
+            return activityToEdit;
         }
 
         public IEnumerable<Activity> GetActivitesByUser(string id)
@@ -93,15 +110,12 @@ namespace BluTimesheet.Services.implementations
             return activityRepository.Search(x => x.ActivityType.ActivityId == id);
         }
 
-        public void SubmitToManager(int id)
+        public void SubmitToManager(Activity activity)
         {
-            throw new System.NotImplementedException();
-            //TODO
-            //send email
+            email.EmailSender(activity);
+
         }
 
-
-        //
         public IEnumerable<Activity> GetActivitesByProjectPerTime(DateTime TimeFrom, DateTime TimeTo, int id)
         {
             return activityRepository.Search(x => x.Begining >= TimeFrom && x.Begining <= TimeTo && x.Project.ProjectId == id);

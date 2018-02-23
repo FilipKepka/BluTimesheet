@@ -7,6 +7,7 @@ import {NgForm} from '@angular/forms';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import {DialogEditComponent} from '../project-menager/dialog-edit/dialog-edit.component';
 import {DialogRoleEditComponent} from './dialog-role-edit/dialog-role-edit.component';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
   selector: 'app-role-menager',
@@ -21,7 +22,8 @@ export class RoleMenagerComponent implements OnInit {
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
   data;
 
-  constructor( private roleManagerService: RoleMenagerService, private dialog: MatDialog ) { }
+  constructor( private roleManagerService: RoleMenagerService, private dialog: MatDialog,
+               private authService: AuthService) { }
 
   ngOnInit() {
     this.roleMenager$ = this.roleManagerService.roleMenager$;

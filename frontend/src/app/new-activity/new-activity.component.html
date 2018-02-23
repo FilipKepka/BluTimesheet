@@ -1,17 +1,17 @@
-<div class="container-flex" style="justify-items: center">
+<div *ngIf="authService.isAuthenticated()" class="container-flex" style="justify-items: center">
   <div style="width: 25%">
-    <form (ngSubmit)="sendNewActivity(f)" #f="ngForm"  fxLayout="column">
+    <form (ngSubmit)="sendNewActivity(f)" #f="ngForm" fxLayout="column">
 
 
       <mat-form-field class="container-new-activity">
-        <input matInput [matDatepicker]="beginingPicker" placeholder="Begining" name="begining" ngModel  >
+        <input matInput [matDatepicker]="beginingPicker" placeholder="Begining" name="begining" ngModel required>
         <mat-datepicker-toggle matSuffix [for]="beginingPicker"></mat-datepicker-toggle>
         <mat-datepicker #beginingPicker></mat-datepicker>
       </mat-form-field>
 
 
       <mat-form-field class="container-new-activity">
-        <mat-select placeholder="How many hours" name="howManyHours" ngModel>
+        <mat-select placeholder="How many hours" name="howManyHours" ngModel required>
           <mat-option *ngFor="let value of Hours" [value]="value">
             {{ value }}
           </mat-option>
@@ -21,29 +21,33 @@
         <textarea disabled="false" matInput #addComments placeholder="Description" name="description"
                   ngModel></textarea>
       </mat-form-field>
-      <mat-form-field class="container-new-activity" >
-      <mat-select  placeholder="Activity type" name="activityType" ngModel required>
-        <mat-option *ngFor="let value of ActivityTypes" [value]="value.activityId" >
-          {{ value.name }}
-        </mat-option>
-      </mat-select>
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="Activity type" name="activityType" ngModel required>
+          <mat-option *ngFor="let value of ActivityTypes" [value]="value.activityId">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field class="container-new-activity">
-      <mat-select placeholder="Project name" name="projects" ngModel>
-        <mat-option *ngFor="let value of projects" [value]="value.projectId">
-          {{ value.name }}
-        </mat-option>
-      </mat-select>
-        </mat-form-field>
-      <mat-form-field class="container-new-activity">
-      <mat-select placeholder="Current project role type" name="currentProjectRoleType" ngModel >
-        <mat-option *ngFor="let value of projectRole" [value]="value.roleId">
-          {{ value.roleName }}
-        </mat-option>
-      </mat-select>
+        <mat-select placeholder="Project name" name="projects" ngModel required>
+          <mat-option *ngFor="let value of projects" [value]="value.projectId">
+            {{ value.name }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
-      <mat-checkbox [disabled]="true">Approved by manager</mat-checkbox>
-      <button mat-raised-button color="primary" type="submit" (click)="sendNewActivity(f)" type="button">Send</button>
+      <mat-form-field class="container-new-activity">
+        <mat-select placeholder="Current project role type" name="currentProjectRoleType" ngModel required>
+          <mat-option *ngFor="let value of projectRole" [value]="value.roleId">
+            {{ value.roleName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--      <mat-checkbox [disabled]="true">Approved by manager</mat-checkbox>-->
+      <div class="button-report-flex">
+        <button style="width: 40%" mat-raised-button color="primary" type="submit" (click)="sendNewActivity(f)"
+                type="button" [disabled]="!f.valid">Send
+        </button>
+      </div>
     </form>
   </div>
 </div>

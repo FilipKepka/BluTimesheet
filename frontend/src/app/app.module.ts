@@ -35,6 +35,13 @@ import { UserManagerService } from './user-manager/user-manager.service';
 import { DialogNewUserComponent } from './user-manager/dialog-new-user/dialog-new-user.component';
 import { DialogEditUserComponent } from './user-manager/dialog-edit-user/dialog-edit-user.component';
 import { FooterComponent } from './footer/footer.component';
+import { DialogEditReportComponent } from './report-generate/dialog-edit-report/dialog-edit-report.component';
+
+/* interceptor*/
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { AuthInterceptor} from './auth/auth.interceptor';
+import { DialogChangePasswordComponent } from './user-manager/dialog-change-password/dialog-change-password.component';
+import { DialogSingleUserPaswordChangeComponent } from './user-manager/dialog-single-user-pasword-change/dialog-single-user-pasword-change.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +60,9 @@ import { FooterComponent } from './footer/footer.component';
     DialogNewUserComponent,
     DialogEditUserComponent,
     FooterComponent,
+    DialogEditReportComponent,
+    DialogChangePasswordComponent,
+    DialogSingleUserPaswordChangeComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,9 +74,20 @@ import { FooterComponent } from './footer/footer.component';
     MomentModule,
   ],
 
-  providers: [AuthGuardService, AuthService, NewActivityService, ProjectMenagerService,
-    RoleMenagerService, ProjectTypeService, ReportGenerateService, UserManagerService],
+  providers: [AuthGuardService,
+    AuthService,
+    NewActivityService,
+    ProjectMenagerService,
+    RoleMenagerService,
+    ProjectTypeService,
+    ReportGenerateService,
+    UserManagerService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
+
+
   bootstrap: [AppComponent],
-  entryComponents: [ConfirmationDialogComponent, DialogRoleEditComponent, DialogEditComponent, DialogNewUserComponent, DialogEditUserComponent]
+  entryComponents: [ConfirmationDialogComponent, DialogRoleEditComponent, DialogEditComponent, DialogNewUserComponent,
+    DialogEditUserComponent, DialogEditReportComponent, DialogChangePasswordComponent, DialogSingleUserPaswordChangeComponent ],
 })
 export class AppModule { }

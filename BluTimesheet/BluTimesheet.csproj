@@ -237,6 +237,7 @@
     <Compile Include="Controllers\ProjectTypeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UserInfoController.cs" />
+    <Compile Include="EmailSender\Email.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AuthenticationBindingModels\ChangePasswordModel.cs" />
     <Compile Include="Models\AuthenticationBindingModels\LoginModel.cs" />

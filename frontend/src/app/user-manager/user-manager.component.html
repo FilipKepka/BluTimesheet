@@ -1,40 +1,48 @@
-<div class="button-padding">
-  <button class="mat-column-settings-button"  (click)="addNewUser()"  mat-raised-button color="primary">Add new user</button>
-</div>
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource">
-    <ng-container matColumnDef="settings">
-      <mat-header-cell *matHeaderCellDef> Settings</mat-header-cell>
-      <mat-cell clas="settingsButtonFlex" *matCellDef="let element">
-        <button class="mat-column-settings-button" (click)="editUser(element.userId)" mat-button color="primary">Edit
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button class="mat-column-settings-button" (click)="removeUser(element.userId)" mat-button color="primary">Remove
-          <mat-icon>clear</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="FirstName">
-      <mat-header-cell *matHeaderCellDef> First name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.fistName}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="Surname">
-      <mat-header-cell *matHeaderCellDef> Surname</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.lastName}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="E-mail">
-      <mat-header-cell *matHeaderCellDef> E-mail</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.email}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="Role">
-      <mat-header-cell *matHeaderCellDef> Role</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.role}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="Superior">
-      <mat-header-cell *matHeaderCellDef> Superior </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ findUserBySuperior(element.superiorId)}}</mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+<div *ngIf="authService.isInRoleManager()">
+  <div class="button-padding">
+    <button class="mat-column-settings-button" (click)="addNewUser()" mat-raised-button color="primary">Add new user
+    </button>
+  </div>
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="settings">
+        <mat-header-cell *matHeaderCellDef> Settings</mat-header-cell>
+        <mat-cell clas="settingsButtonFlex" *matCellDef="let element">
+          <button class="mat-column-settings-button" (click)="editUser(element.userId)" mat-button color="primary">Edit
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button class="mat-column-settings-button" (click)="removeUser(element.userId)" mat-button color="primary">
+            Remove
+            <mat-icon>clear</mat-icon>
+          </button>
+          <button class="mat-column-settings-button" *ngIf="authService.isInRoleAdmin()" (click)="changePassword(element.userId)" mat-button color="primary">
+            Change Password
+            <mat-icon>https</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="FirstName">
+        <mat-header-cell *matHeaderCellDef> First name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.fistName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Surname">
+        <mat-header-cell *matHeaderCellDef> Surname</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.lastName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="E-mail">
+        <mat-header-cell *matHeaderCellDef> E-mail</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Role">
+        <mat-header-cell *matHeaderCellDef> Role</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.role}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Superior">
+        <mat-header-cell *matHeaderCellDef> Superior</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ findUserBySuperior(element.superiorId)}}</mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
 </div>

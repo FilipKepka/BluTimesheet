@@ -1,0 +1,25 @@
+<form #f="ngForm">
+  <mat-dialog-content fxFlexOrder="column">
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="Old password" name="oldPassword" [(ngModel)]="oldPassword"
+             minlength=6 required>
+    </mat-form-field>
+    <mat-form-field>
+      <input #input type="text" matInput placeholder="New password" name="newPassword" [(ngModel)]="newPassword"
+             minlength=6 required>
+    </mat-form-field>
+    <mat-form-field>
+      <input #input2 type="text" matInput placeholder="Confirm password" name="confirmPassword" [(ngModel)]="confirmPassword" required>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div class="flex-button">
+    <mat-dialog-actions>
+      <mat-dialog-content class="flex-button">
+        <button  mat-raised-button color="primary" [mat-dialog-close]="true" [disabled]="disabledCheck(f)"
+                 type="button" (click)="onSave(f)">Save
+        </button>
+        <button mat-raised-button color="primary" mat-dialog-close (click)="onCancel()">Cancel</button>
+      </mat-dialog-content>
+    </mat-dialog-actions>
+  </div>
+</form>

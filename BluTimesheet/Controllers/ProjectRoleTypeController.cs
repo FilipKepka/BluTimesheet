@@ -8,6 +8,7 @@ using System.Web.Http;
 namespace BluTimesheet.Controllers
 {
     // [Authorize(Roles =Startup.roleAdmin)]
+    [Authorize]
     public class ProjectRoleTypeController : ApiController
     {
         private IProjectRoleTypeService projectRoleTypeService;
@@ -42,6 +43,7 @@ namespace BluTimesheet.Controllers
                 return NotFound();
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult PutProjectRoleType(ProjectRoleType publicRoleType)
         {
             //var publicRoleTypeDb = projectRoleTypeService.Get(publicRoleType.RoleId);
@@ -56,6 +58,7 @@ namespace BluTimesheet.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult DeleteProjectRoleType(int id)
         {
             var publicRoleTypeDb = projectRoleTypeService.Get(id);

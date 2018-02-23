@@ -56,11 +56,13 @@ export class NewActivityComponent implements OnInit {
     body.CurrentProjectRoleType = { RoleId: form.value.currentProjectRoleType};
     body.Begining = moment(form.value.begining.toString()).format("YYYY-M-D");
     body.UserId = this.authService.getUserInfo().UserId;
-    console.log(body.UserId);
-    console.log('activity', body);
     this.newActivityService.addNewActivity(body)
       .subscribe((res: ActivityModel) => {
-        console.log(res);
+        this.newActivityService.sendEmail(body)
+          .subscribe((resEmail: ActivityModel) => {
+
+          });
+        console.log('email-send');
       });
   }
 

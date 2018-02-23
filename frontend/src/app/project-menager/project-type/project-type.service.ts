@@ -10,16 +10,14 @@ import {ProjectsModel} from '../../../models/projects.model';
 @Injectable()
 export class ProjectTypeService {
 
-  public headers;
   private baseUrl: string;
 
   constructor( private http: HttpClient, private authService: AuthService ) {
-    this.headers = this.authService.getAuthorizationHeaders();
-    this.baseUrl = 'http://localhost:51107/api';
+    this.baseUrl = this.authService.url;
   }
 
   loadAllPeojectsType() {
-    return this.http.get(`${this.baseUrl}/ProjectType`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/ProjectType`);
   }
 
 }

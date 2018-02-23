@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserManagerService} from './user-manager.service';
 import {MatDialog, MatDialogRef, MatTableDataSource} from '@angular/material';
 import {UserInfoModel} from '../../models/userInfo.model';
@@ -7,6 +7,8 @@ import {forEach} from '@angular/router/src/utils/collection';
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {Observable} from 'rxjs/Observable';
 import {DialogEditUserComponent} from './dialog-edit-user/dialog-edit-user.component';
+import {AuthService} from '../auth/auth.service';
+import {DialogChangePasswordComponent} from './dialog-change-password/dialog-change-password.component';
 
 @Component({
   selector: 'app-user-manager',
@@ -16,10 +18,13 @@ import {DialogEditUserComponent} from './dialog-edit-user/dialog-edit-user.compo
 export class UserManagerComponent implements OnInit {
 
   private dataSource: MatTableDataSource<UserInfoModel>;
-  private displayedColumns: Array<string> = ['FirstName', 'Surname', 'E-mail', 'Role','Superior', 'settings'];
+  private displayedColumns: Array<string> = ['FirstName', 'Surname', 'E-mail', 'Role', 'Superior', 'settings'];
   data;
   dialogRef: MatDialogRef<ConfirmationDialogComponent>;
-  constructor( private userManagerService: UserManagerService, private dialog: MatDialog) { }
+
+  constructor(private userManagerService: UserManagerService, private dialog: MatDialog,
+              private authService: AuthService) {
+  }
 
   ngOnInit() {
     this.userManagerService.loadAllUsers()
@@ -30,22 +35,22 @@ export class UserManagerComponent implements OnInit {
   }
 
   addNewUser() {
-    const dialogRef = this.dialog .open(DialogNewUserComponent , {
+    const dialogRef = this.dialog.open(DialogNewUserComponent, {
       width: '500px',
     });
     dialogRef.afterClosed()
-      .subscribe((data: UserInfoModel ) => {
+      .subscribe((data: UserInfoModel) => {
         this.refreshTableData();
       });
   }
 
   findUserBySuperior(superiorIdToSurname) {
-    let returnValue = "";
+    let returnValue = '';
     this.data.forEach((e, i) => {
-    if (e.userId === superiorIdToSurname) {
-      returnValue = e.lastName;
-    }
-    }) ;
+      if (e.userId === superiorIdToSurname) {
+        returnValue = e.lastName;
+      }
+    });
     return returnValue;
   }
 
@@ -53,7 +58,7 @@ export class UserManagerComponent implements OnInit {
     this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false
     });
-    this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?";
+    this.dialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
     this.dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -67,16 +72,15 @@ export class UserManagerComponent implements OnInit {
   }
 
   editUser(userId) {
-    const dialogRef = this.dialog .open(DialogEditUserComponent , {
+    const dialogRef = this.dialog.open(DialogEditUserComponent, {
       width: '500px',
 
       data: {
         userId
       }
-
     });
     dialogRef.afterClosed()
-      .subscribe((data: UserInfoModel ) => {
+      .subscribe((data: UserInfoModel) => {
         this.refreshTableData();
       });
   }
@@ -87,5 +91,18 @@ export class UserManagerComponent implements OnInit {
         this.data = res;
         this.dataSource = new MatTableDataSource<UserInfoModel>(this.data);
       });
+  }
+
+  changePassword(userId) {
+  const dialogRef = this.dialog.open(DialogChangePasswordComponent, {
+    width: '500px',
+    data: {
+      userId
+    }
+  });
+  dialogRef.afterClosed()
+    .subscribe(data => {
+
+    });
   }
 }

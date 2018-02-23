@@ -10,7 +10,6 @@ import {ProjectsModel} from '../../models/projects.model';
 @Injectable()
 export class ProjectMenagerService {
 
-  public headers;
   public projectModel$: Observable<ProjectsModel[]>;
   private _projectModel: BehaviorSubject<ProjectsModel[]>;
   private baseUrl: string;
@@ -19,35 +18,34 @@ export class ProjectMenagerService {
   };
 
   constructor( private http: HttpClient, private authService: AuthService) {
-    this.headers = this.authService.getAuthorizationHeaders();
     this.dataStore = {projectManager: []};
     this._projectModel = <BehaviorSubject<ProjectsModel[]>>new BehaviorSubject([]);
     this.projectModel$ = this._projectModel.asObservable();
-    this.baseUrl = 'http://localhost:51107/api';
+    this.baseUrl = this.authService.url;
   }
 
 
   loadAllProjects() {
-    this.http.get(`${this.baseUrl}/Project`, {headers: this.headers}).subscribe((data: ProjectsModel[]) => {
+    this.http.get(`${this.baseUrl}/api/Project`, ).subscribe((data: ProjectsModel[]) => {
       this.dataStore.projectManager = data;
       this._projectModel.next(Object.assign({}, this.dataStore).projectManager);
     }, error => console.log('Load terminals error: ', error));
   }
 
   loadSingleProject(projectId) {
-    return this.http.get(`${this.baseUrl}/Project/${projectId}`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/Project/${projectId}`);
   }
 
   loadAllProjectTypes() {
-    return this.http.get(`${this.baseUrl}/ProjectType`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/ProjectType`);
   }
 
   addProject(data) {
-    return this.http.post(`${this.baseUrl}/Project/`, JSON.stringify(data), {headers: this.headers});
+    return this.http.post(`${this.baseUrl}/api/Project/`, JSON.stringify(data));
   }
 
   deleteColumn(projectId: number) {
-    this.http.delete(`${this.baseUrl}/Project/${projectId}`, {headers: this.headers})
+    this.http.delete(`${this.baseUrl}/api/Project/${projectId}`)
       .subscribe(response => {
         this.dataStore.projectManager.forEach((t, i) => {
           if (t.projectId === projectId) {
@@ -59,6 +57,6 @@ export class ProjectMenagerService {
   }
 
   editColumn(projectId) {
-    return this.http.put(`${this.baseUrl}/Project`, JSON.stringify(projectId), {headers: this.headers});
+    return this.http.put(`${this.baseUrl}/api/Project`, JSON.stringify(projectId));
   }
 }

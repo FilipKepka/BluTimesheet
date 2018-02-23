@@ -4,33 +4,41 @@ import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class UserManagerService {
-  public headers;
+
   private baseUrl;
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.headers = this.authService.getAuthorizationHeaders();
-    this.baseUrl = 'http://localhost:51107/api';
+
+    this.baseUrl = this.authService.url;
   }
 
 // complete user info
   loadAllUsers() {
-  return this.http.get(`${this.baseUrl}/UserInfo/AllUserInfo`, {headers: this.headers});
+  return this.http.get(`${this.baseUrl}/api/UserInfo/AllUserInfo`);
 }
 
   loadSingleUser(id) {
-    return this.http.get(`${this.baseUrl}/UserInfo/SingleUserInfo/${id}`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/UserInfo/SingleUserInfo/${id}`);
   }
 
   addNewUser(newUserData) {
-    return this.http.post(`${this.baseUrl}/Account/Register`, JSON.stringify(newUserData), {headers: this.headers});
+    return this.http.post(`${this.baseUrl}/api/Account/Register`, JSON.stringify(newUserData));
   }
 
   editUser(userToEditData) {
-    return this.http.post(`${this.baseUrl}/Account/UserEdit`, JSON.stringify(userToEditData), {headers: this.headers});
+    return this.http.post(`${this.baseUrl}/api/Account/UserEdit`, JSON.stringify(userToEditData));
   }
 
   removeUser(userId) {
-    return this.http.post(`${this.baseUrl}/Account/RemoveUser/${userId}`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/Account/RemoveUser/${userId}`);
+  }
+
+  changePasswordWithoutOld(changePasswordData) {
+    return this.http.post(`${this.baseUrl}/api/Account/ChangePasswordWithoutOld`, JSON.stringify(changePasswordData));
+  }
+
+  changePassword(changePasswordData) {
+    return this.http.post(`${this.baseUrl}/api/Account/ChangePassword`, JSON.stringify(changePasswordData));
   }
 }
 

@@ -8,7 +8,6 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class RoleMenagerService {
 
-  public headers;
   public roleMenager$: Observable<RoleMenagerModel[]>;
   private _roleMenager: BehaviorSubject<RoleMenagerModel[]>;
   private baseUrl: string;
@@ -17,32 +16,31 @@ export class RoleMenagerService {
   };
 
   constructor( private http: HttpClient, private authService: AuthService) {
-    this.headers = this.authService.getAuthorizationHeaders();
     this.dataStore = {roleMenager: []};
     this._roleMenager = <BehaviorSubject<RoleMenagerModel[]>>new BehaviorSubject([]);
     this.roleMenager$ = this._roleMenager.asObservable();
-    this.baseUrl = 'http://localhost:51107/api';
+    this.baseUrl = this.authService.url;
   }
 
 
 
   loadAllRole() {
-    this.http.get(`${this.baseUrl}/ProjectRoleType`, {headers: this.headers}).subscribe((data: RoleMenagerModel[]) => {
+    this.http.get(`${this.baseUrl}/api/ProjectRoleType`).subscribe((data: RoleMenagerModel[]) => {
       this.dataStore.roleMenager = data;
       this._roleMenager.next(Object.assign({}, this.dataStore).roleMenager);
     }, error => console.log('Load terminals error: ', error));
   }
 
   loadSingleRole(roleId) {
-    return this.http.get(`${this.baseUrl}/ProjectRoleType/${roleId}`, {headers: this.headers});
+    return this.http.get(`${this.baseUrl}/api/ProjectRoleType/${roleId}`);
   }
 
   addRole(data) {
-    return this.http.post(`${this.baseUrl}/ProjectRoleType/`, JSON.stringify(data), {headers: this.headers});
+    return this.http.post(`${this.baseUrl}/api/ProjectRoleType/`, JSON.stringify(data));
   }
 
   deleteColumn(roleId: number) {
-     this.http.delete(`${this.baseUrl}/ProjectRoleType/${roleId}`, {headers: this.headers})
+     this.http.delete(`${this.baseUrl}/api/ProjectRoleType/${roleId}`)
        .subscribe(response => {
          this.dataStore.roleMenager.forEach((t, i) => {
            if (t.roleId === roleId) {
@@ -54,7 +52,7 @@ export class RoleMenagerService {
      }
 
    editColumn(roleId) {
-     return this.http.put(`${this.baseUrl}/ProjectRoleType`, JSON.stringify(roleId), {headers: this.headers});
+     return this.http.put(`${this.baseUrl}/api/ProjectRoleType`, JSON.stringify(roleId));
    }
 
 }

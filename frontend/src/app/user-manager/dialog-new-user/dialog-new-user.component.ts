@@ -41,6 +41,15 @@ export class DialogNewUserComponent implements OnInit {
 
   }
 
+  newUserValidationPassword(form: NgForm) {
+    console.log('formvalid', form.valid);
+    if (!(form.value.password === form.value.confirmPassword && form.valid)) {
+      return true;
+    }else {
+      return false;
+    }
+  }
+
   onCancel() {
   }
 

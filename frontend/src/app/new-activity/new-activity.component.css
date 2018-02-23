@@ -24,3 +24,10 @@
   min-width: 100px;
 
 }
+
+.button-report-flex{
+  display: flex;
+  justify-content: center;
+}
+
+

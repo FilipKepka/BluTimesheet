@@ -12,6 +12,7 @@ namespace BluTimesheet.Controllers
 {
 
     [RoutePrefix("api/userInfo")]
+    [Authorize]
     public class UserInfoController : ApiController
     {
         private ApplicationUserManager userManager;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BluTimesheet.Controllers
 {
     //[Authorize(Roles = Startup.roleAdmin)]
+    [Authorize]
     public class ActivityTypeController : ApiController
     {
         private IActivityTypeService activityTypeService;
@@ -45,6 +46,7 @@ namespace BluTimesheet.Controllers
 
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult PutActivityType(ActivityType activityType)
         {
             var activityTypeFromDb = activityTypeService.Get(activityType.ActivityId);
@@ -59,6 +61,7 @@ namespace BluTimesheet.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         public IHttpActionResult DeleteActivityType(int id)
         {
             var activityTypeFromDb = activityTypeService.Get(id);

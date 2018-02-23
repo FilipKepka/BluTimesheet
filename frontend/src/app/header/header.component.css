@@ -1,5 +1,5 @@
 .title {
-  color: black;
+  color: #17ffd8;
 }
 .bn-spacer {
   flex: 1 1 auto;
@@ -7,7 +7,7 @@
 .lol {
   font-weight: bold;
   font-size: 101%;
-  color: #FFD700;
+  color: #ffffff;
 }
 
 .div-logout

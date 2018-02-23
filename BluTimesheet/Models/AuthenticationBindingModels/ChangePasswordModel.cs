@@ -8,7 +8,7 @@ namespace BluTimesheet.Models.AuthenticationBidingModels
 {
     public class ChangePasswordModel
     {
-        [Required]
+     //   [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
@@ -23,5 +23,7 @@ namespace BluTimesheet.Models.AuthenticationBidingModels
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string user { get; set; }
     }
 }

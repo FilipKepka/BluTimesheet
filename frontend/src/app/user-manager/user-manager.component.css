@@ -37,3 +37,22 @@
 .mat-column-settings-button:hover {
   opacity: 1.0;
 }
+
+.mat-column-E-mail {
+  flex: 0 0 20%;
+}
+
+.mat-column-FirstName {
+  flex: 0 0 13%;
+}
+
+.mat-column-Surname {
+  flex: 0 0 13%;
+}
+.mat-column-Superior {
+  flex: 0 0 13%;
+}
+.mat-column-Role {
+  flex: 0 0 10%;
+}
+

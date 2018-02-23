@@ -1,12 +1,12 @@
-
+<div *ngIf="authService.isInRoleManager()">
  <div>
   <div>
     <form (ngSubmit)="addNewProject(f)" #f="ngForm">
       <mat-form-field>
-        <input matInput placeholder="Add new project name" name="newProject" ngModel>
+        <input matInput placeholder="Add new project name" name="newProject" ngModel required>
       </mat-form-field>
       <mat-form-field>
-        <mat-select placeholder="Project type" name="projectType" ngModel>
+        <mat-select placeholder="Project type" name="projectType" ngModel required>
           <mat-option *ngFor="let value of selectValues"  [value]="value.projectTypeId">
             {{ value.name }}
           </mat-option>
@@ -66,3 +66,4 @@
     </mat-table>
   </div>
  </div>
+</div>

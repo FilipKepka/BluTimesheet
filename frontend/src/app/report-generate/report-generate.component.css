@@ -24,3 +24,13 @@
 .mat-sort-header-container {
   align-items: center;
 }
+
+mat-row:hover {
+  cursor: pointer;
+  background-color: #f8f8f8;
+}
+.button-menu-flex{
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+}

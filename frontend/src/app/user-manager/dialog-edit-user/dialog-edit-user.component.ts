@@ -40,7 +40,6 @@ export class DialogEditUserComponent implements OnInit {
         this.lastName = res.lastName;
         this.superiorId = res.superiorId;
         this.role = res.role[0];
-        console.log(this.superiorId);
       });
   }
 

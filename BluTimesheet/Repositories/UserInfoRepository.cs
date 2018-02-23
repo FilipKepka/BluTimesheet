@@ -28,8 +28,8 @@ namespace BluTimesheet.Repositories
 
         public UserInfoViewModel GetUserInfo()
         {
-            var userId = User.Identity.GetUserName();
-            var userInfo = userManager.FindByEmail(userId);
+            var userEmail = User.Identity.GetUserName();
+            var userInfo = userManager.FindByEmail(userEmail);
 
             return new UserInfoViewModel
             {
@@ -38,7 +38,7 @@ namespace BluTimesheet.Repositories
                 IsAdmin = true,
                 FistName = userInfo.FirstName,
                 LastName = userInfo.LastName,
-
+                role = userManager.GetRoles(userInfo.Id),
             };
         }
 

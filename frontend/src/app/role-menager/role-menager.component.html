@@ -1,8 +1,8 @@
-<div>
+<div *ngIf="authService.isInRoleManager()">
   <div>
     <form (ngSubmit)="addNewRole(f)" #f="ngForm">
       <mat-form-field>
-        <input matInput placeholder="Add new role" name="addNewRoleManager" ngModel>
+        <input matInput placeholder="Add new role" name="addNewRoleManager" ngModel required>
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit" [disabled]="!f.valid">Add</button>
     </form>

@@ -46,26 +46,42 @@ namespace BluTimesheet.Controllers
                
 
         // POST api/Account/ChangePassword
+        [Route("ChangePasswordWithoutOld")]
+        [Authorize]
+        public async Task<IHttpActionResult> ChangePasswordWithoutOld(ChangePasswordModel model)
+        {
+            if (User.IsInRole(Startup.roleAdmin)) {
+                var userData = userManager.FindById(model.user);
+                var resetCode = userManager.GeneratePasswordResetToken(model.user);
+                var result = userManager.ResetPassword(model.user, resetCode, model.NewPassword);
+                return Ok(result);
+            }
+            return Unauthorized();
+        }
+
+
         [Route("ChangePassword")]
+        [Authorize]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordModel model)
         {
-            var result = await userManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,model.NewPassword);
-
-            return Ok(result);
+                var result = await userManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                return Ok(result);
         }
+
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordModel model)
         {
             var result = await userManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
             
             return Ok(result);
         }
-                
-        
+
+
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Manager")]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterModel model)
         {
@@ -93,7 +109,7 @@ namespace BluTimesheet.Controllers
 
 
         // POST api/Account/UserEditU
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin, Manager")]
         [Route("UserEdit")]
         public async Task<IHttpActionResult> UserEdit(UserEditModel model)
         {
@@ -129,9 +145,11 @@ namespace BluTimesheet.Controllers
         }
 
         //POST: /Account/RemoveUser/{Id}
-        [AllowAnonymous]
+        //  [AllowAnonymous]
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         [Route("RemoveUser/{Id}")]
-        public async Task<IHttpActionResult> RemoveUser(string Id)
+        public async Task<IHttpActionResult> GetRemoveUser(string Id)
         {
             var userToRemove = userManager.FindById(Id);
             userManager.Delete(userToRemove);

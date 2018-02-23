@@ -50,7 +50,15 @@ namespace BluTimesheet.Services.implementations
 
         public void Remove(int id)
         {
-            projectRepository.Remove(id);
+            Project entityToDelete = context.Project.Find(id);
+            List<Activity> activityToDelete = new List<Activity>();
+            var zmienna = context.Activity.Where(i => i.Project.ProjectId == entityToDelete.ProjectId);
+            foreach (var item in zmienna)
+            {
+            context.Activity.Remove(item);
+            }
+            context.Project.Remove(entityToDelete);
+            context.SaveChanges();
         }
 
         public Project Update(Project project)

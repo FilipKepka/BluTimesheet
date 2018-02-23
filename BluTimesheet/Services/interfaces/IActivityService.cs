@@ -10,13 +10,13 @@ namespace BluTimesheet.Services.interfaces
         void Add(Activity activity);
         void Remove(int id);
         Activity Get(int id);
-        void Update(Activity activity);        
+        Activity Update(Activity activity);        
         void Approve(Activity activity);
         IEnumerable<Activity> GetAll(); 
         IEnumerable<Activity> GetActivitesByUser(string id);
         IEnumerable<Activity> GetActivitesByProject(int id);
         IEnumerable<Activity> GetActivitesByActivityType(int id);
-        void SubmitToManager(int id);
+        void SubmitToManager(Activity activity);
         IEnumerable<Activity> GetActivitesByProjectPerTime(DateTime TimeFrom, DateTime TimeTo, int id);
         IEnumerable<Activity> GetActivitesByUserPerTime(DateTime TimeFrom, DateTime TimeTo, string id);
         IEnumerable<Activity> GetActivitesByActivityTypePerTime(DateTime TimeFrom, DateTime TimeTo, int id);
